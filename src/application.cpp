@@ -1,17 +1,10 @@
 #include "application.h"
-
-#include <QStandardItemModel>
+#include "rpcconnection.h"
 
 Application::Application(int &argc, char **argv)
 	: Super(argc, argv)
+	, m_brokerListModel(new BrokerListModel(this))
 	, m_crypt(shv::core::utils::Crypt::createGenerator(17456, 3148, 2147483647))
+	, m_rpcConnection(new RpcConnection(this))
 {
-	treeModel = new QStandardItemModel(this);
-	QStandardItem *parent_item = treeModel->invisibleRootItem();
-	for (int i = 0; i < 4; ++i) {
-		QStandardItem *item = new QStandardItem(QString("item %0").arg(i));
-		parent_item->appendRow(item);
-		parent_item = item;
-	}
-
 }
