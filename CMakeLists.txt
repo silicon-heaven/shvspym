@@ -1,0 +1,58 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(shvspym VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Network SerialPort WebSockets)
+
+qt_standard_project_setup(REQUIRES 6.5)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_WIN32_EXECUTABLE ON) # Don't open a console window for Windows apps on Release mode.
+endif()
+
+add_subdirectory(3rdparty/necrolog)
+set(WITH_BROKER OFF CACHE BOOL "")
+set(WITH_VISU OFF CACHE BOOL "")
+add_subdirectory(3rdparty/libshv)
+
+qt_add_executable(shvspym
+	src/main.cpp
+	src/application.cpp
+	src/brokerproperty.cpp
+	src/servertreemodel/servertreemodel.cpp
+	src/servertreemodel/shvbrokernodeitem.cpp
+	src/servertreemodel/shvnodeitem.cpp
+)
+
+qt_add_qml_module(shvspym
+    URI shvspymqml
+    VERSION 1.0
+    QML_FILES qml/Main.qml
+)
+
+# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
+# If you are developing for iOS or macOS you should consider setting an
+# explicit, fixed bundle identifier manually though.
+set_target_properties(shvspym PROPERTIES
+#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.shvspym
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
+)
+
+#target_include_directories(shvspy PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(shvspym
+    PRIVATE Qt6::Quick libshviotqt
+)
+
+include(GNUInstallDirs)
+install(TARGETS shvspym
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
