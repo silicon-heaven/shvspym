@@ -1,20 +1,22 @@
 import QtQuick
-import QtQuick.Controls
 
 Rectangle {
-	id: rectangle
+	id: brokerRectangle
 	height: 50
 	width: 200
+
+	signal connectToBrokerRequest(index: int)
 
 	required property int index
 	required property var model
 	required property string name
+	required property string connectionId
 
 	Text {
 		id: text1
-		text: parent.name? parent.name: "Connection name"
+		text: brokerRectangle.name? brokerRectangle.name: "Connection name"
 		anchors.left: parent.left;
-		anchors.right: button.left;
+		anchors.right: playButton.left;
 		anchors.top: parent.top;
 		anchors.bottom: parent.bottom;
 		verticalAlignment: Text.AlignVCenter
@@ -22,27 +24,15 @@ Rectangle {
 		anchors.leftMargin: 5
 	}
 	Connections {
-		target: playButton
-		function onClicked() {
-			text1.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+		target: brokerRectangle
+		function onConnectToBrokerRequest(index) {
+			//text1.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+			console.log("index:", index)
 		}
 	}
-	/*
-	Button {
-		id: button
-		width:height
-		text: "⏵"
-		anchors.right: parent.right
-		anchors.top: parent.top
-		anchors.bottom: parent.bottom
-		flat: false
-		highlighted: true
-		display: AbstractButton.TextOnly
-	}
-	*/
+
 	Rectangle {
 		id: playButton
-		signal clicked()
 		x: 395
 		y: 0
 		width: height
@@ -87,7 +77,8 @@ Rectangle {
 			onPressed: isDown = true;
 			onReleased: {
 				isDown = false;
-				playButton.clicked()
+				brokerRectangle.connectToBrokerRequest(brokerRectangle.index)
+				console.log(brokerRectangle.ListView.view.currentIndex, brokerRectangle.index, brokerRectangle.connectionId)
 			}
 		}
 	}
