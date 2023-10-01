@@ -71,9 +71,6 @@ Rectangle {
 			anchors.right: parent.right
 			anchors.top: parent.top
 			anchors.bottom: parent.bottom
-			//onClicked: {
-			//	console.log("parent.index is ", parent.index);
-			//}
 			onPressed: isDown = true;
 			onReleased: {
 				isDown = false;
@@ -82,5 +79,4 @@ Rectangle {
 			}
 		}
 	}
-
 }

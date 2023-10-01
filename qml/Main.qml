@@ -172,41 +172,20 @@ ApplicationWindow {
 		anchors.fill: parent
 		anchors.leftMargin: !window.portraitMode ? drawer.width : undefined
 
-		initialItem: Pane {
-			id: brokerPane
-			ListView {
-				id: brokerListView
-
-				focus: true
-				anchors.fill: parent
-
-				model: brokerListModel
-				delegate: BrokerListDelegate {
-					width: brokerListView.width;
-				}
-				/*
-				delegate: ItemDelegate {
-					//id: delegateItem
-					width: ListView.view.width
-					text: name
-					highlighted: ListView.isCurrentItem
-
-					required property int index
-					required property var model
-					required property string name
-
-					onClicked: {
-						brokerListView.currentIndex = index
-						//stackView.push(source)
-						//if (window.portraitMode)
-						//	drawer.close()
-					}
-				}
-				*/
-				ScrollIndicator.vertical: ScrollIndicator { }
+		initialItem: BrokersPane {
+			id: brokersPane
+		}
+		Component {
+			id: brokerProperties
+			BrokerProperties {
 			}
-
-
+		}
+		Connections {
+			target: brokersPane
+			function onAddBroker() {
+				console.log("add broker 2")
+				stackView.push(brokerProperties, {"stackView": stackView})
+			}
 		}
 	}
 
