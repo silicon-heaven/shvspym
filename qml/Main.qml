@@ -178,13 +178,18 @@ ApplicationWindow {
 		Component {
 			id: brokerProperties
 			BrokerProperties {
+				onCancelled: stackView.pop()
+				onAddBroker: (broker_propeties) => {
+					stackView.pop()
+					brokerListModel.addBroker(broker_propeties)
+				}
 			}
 		}
 		Connections {
 			target: brokersPane
 			function onAddBroker() {
 				console.log("add broker 2")
-				stackView.push(brokerProperties, {"stackView": stackView})
+				stackView.push(brokerProperties)
 			}
 		}
 	}

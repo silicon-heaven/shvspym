@@ -1,16 +1,18 @@
 #include "brokerlistmodel.h"
 
+#include <shv/coreqt/rpc.h>
+#include <shv/coreqt/log.h>
+
 #include <QSettings>
 
 //using namespace std::string_literals;
+using namespace shv::chainpack;
+using namespace std;
 
 BrokerListModel::BrokerListModel(QObject *parent)
 	: Super{parent}
 {
-	m_brokers = {
-		{.connectionId = 1, .name = "Nirvana", .connectionString = "tcp://test:test@nirvana.elektroline.cz"},
-		{.connectionId = 2, .name = "Nirvana2", .connectionString = "tcp://test2:test@nirvana.elektroline.cz"},
-	};
+	loadBrokers();
 }
 
 int BrokerListModel::addBroker(const QVariantMap &properties)
@@ -29,6 +31,7 @@ int BrokerListModel::addBroker(const QVariantMap &properties)
 			beginInsertRows({}, m_brokers.size(), m_brokers.size());
 			m_brokers.append(pp);
 			endInsertRows();
+			saveBrokers();
 			return new_id;
 		}
 	}
@@ -81,20 +84,32 @@ constexpr auto Brokers = "brokers";
 void BrokerListModel::saveBrokers()
 {
 	QSettings settings;
-	QVariantList lst;
+	RpcValue::List lst;
 	for(const auto &props : m_brokers) {
-		lst << props.toMap();
+		auto m = props.toMap();
+		lst.push_back(shv::coreqt::rpc::qVariantToRpcValue(m));
 	}
-	settings.setProperty(Brokers, lst);
+	auto cpon = RpcValue{lst}.toCpon();
+	settings.setValue(Brokers, QString::fromStdString(cpon));
 }
 
 void BrokerListModel::loadBrokers()
 {
 	beginResetModel();
 	QSettings settings;
-	auto lst = settings.property(Brokers).toList();
-	for(const auto &v : lst) {
-		m_brokers << BrokerProperties::fromMap(v.toMap());
+	auto cpon = settings.value(Brokers).toString().toStdString();
+	if(cpon.empty())
+		return;
+	string err;
+	auto rv = RpcValue::fromCpon(cpon, &err);
+	if(err.empty()) {
+		for(const auto &v : rv.asList()) {
+			auto m = shv::coreqt::rpc::rpcValueToQVariant(v).toMap();
+			m_brokers << BrokerProperties::fromMap(m);
+		}
+	}
+	else {
+		shvError() << "Parse config error:" << err;
 	}
 	endResetModel();
 }
