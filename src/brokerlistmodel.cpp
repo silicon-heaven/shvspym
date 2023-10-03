@@ -39,10 +39,15 @@ int BrokerListModel::addBroker(const QVariantMap &properties)
 
 void BrokerListModel::updateBroker(int connection_id, const QVariantMap &properties)
 {
+	if(connection_id == 0) {
+		addBroker(properties);
+		return;
+	}
 	for(qsizetype i = 0; i < m_brokers.size(); ++i) {
 		if(m_brokers[i].connectionId == connection_id) {
 			m_brokers[i] = BrokerProperties::fromMap(properties);
 			emit dataChanged(index(i), index(i));
+			saveBrokers();
 			return;
 		}
 	}
@@ -55,9 +60,20 @@ void BrokerListModel::removeBroker(int connection_id)
 			beginRemoveRows({}, i, i);
 			m_brokers.removeAt(i);
 			endRemoveRows();
+			saveBrokers();
 			return;
 		}
 	}
+}
+
+QVariantMap BrokerListModel::brokerProperties(int connection_id) const
+{
+	for(qsizetype i = 0; i < m_brokers.size(); ++i) {
+		if(m_brokers[i].connectionId == connection_id) {
+			return m_brokers[i].toMap();
+		}
+	}
+	return {};
 }
 
 QVariant BrokerListModel::data(const QModelIndex &index, int role) const
@@ -68,6 +84,7 @@ QVariant BrokerListModel::data(const QModelIndex &index, int role) const
 		switch (role) {
 		case ConnectionIdRole: return props.connectionId;
 		case NameRole: return props.name;
+		case ConnectionStringRole: return props.connectionStringShort();
 		default: break;
 		}
 	}
@@ -76,7 +93,10 @@ QVariant BrokerListModel::data(const QModelIndex &index, int role) const
 
 namespace {
 constexpr auto ConnectionId = "connectionId";
+constexpr auto ConnectionString = "connectionString";
 constexpr auto Name = "name";
+constexpr auto Scheme = "scheme";
+constexpr auto Host = "host";
 
 constexpr auto Brokers = "brokers";
 }
@@ -120,9 +140,18 @@ QHash<int, QByteArray> BrokerListModel::roleNames() const
 		QHash<int, QByteArray> roles;
 		roles[ConnectionIdRole] = ConnectionId;
 		roles[NameRole] = Name;
+		roles[ConnectionStringRole] = ConnectionString;
 		return roles;
 	}();
 	return roles;
+}
+
+QString BrokerListModel::BrokerProperties::connectionStringShort() const
+{
+	QString ret = scheme;
+	ret += "://";
+	ret += host;
+	return ret;
 }
 
 QVariantMap BrokerListModel::BrokerProperties::toMap() const
@@ -130,6 +159,8 @@ QVariantMap BrokerListModel::BrokerProperties::toMap() const
 	QVariantMap ret;
 	ret[ConnectionId] = connectionId;
 	ret[Name] = name;
+	ret[Scheme] = scheme;
+	ret[Host] = host;
 	return ret;
 }
 
@@ -137,6 +168,8 @@ BrokerListModel::BrokerProperties BrokerListModel::BrokerProperties::fromMap(con
 {
 	return BrokerProperties {
 		.connectionId = m.value(ConnectionId).toInt(),
-		.name = m.value(Name).toString(),
+				.name = m.value(Name).toString(),
+				.scheme = m.value(Scheme).toString(),
+				.host = m.value(Host).toString(),
 	};
 }

@@ -5,6 +5,7 @@ Pane {
 	id: pane
 
 	signal addBroker()
+	signal editBroker(connection_id: int);
 
 	ListView {
 		id: brokerListView
@@ -15,6 +16,7 @@ Pane {
 		model: brokerListModel
 		delegate: BrokerListDelegate {
 			width: brokerListView.width;
+			onEditBrokerRequest: (connection_id) => pane.editBroker(connection_id)
 		}
 		/*
 				delegate: ItemDelegate {
@@ -47,12 +49,8 @@ Pane {
 
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 0
-		anchors.rightMargin: 0
 
 		Text {
-			x: 0
-			y: 0
 			color: "white"
 			text: "+"
 			anchors.fill: parent
@@ -65,7 +63,7 @@ Pane {
 			id: mouseArea
 			anchors.fill: parent
 			onClicked: {
-				console.log("add broker 1")
+				//console.log("add broker 1")
 				pane.addBroker()
 			}
 		}

@@ -12,6 +12,7 @@ public:
 	enum BrokerPropertiesRoles {
 		ConnectionIdRole = Qt::UserRole + 1,
 		NameRole,
+		ConnectionStringRole,
 	};
 
 public:
@@ -20,6 +21,7 @@ public:
 	Q_INVOKABLE int addBroker(const QVariantMap &properties);
 	Q_INVOKABLE void updateBroker(int connection_id, const QVariantMap &properties);
 	Q_INVOKABLE void removeBroker(int connection_id);
+	Q_INVOKABLE QVariantMap brokerProperties(int connection_id) const;
 
 	int rowCount(const QModelIndex &parent = {}) const override { return m_brokers.count(); }
 	QVariant data(const QModelIndex &index, int role) const override;
@@ -32,7 +34,10 @@ private:
 	{
 		int connectionId;
 		QString name;
-		QString connectionString;
+		QString scheme;
+		QString host;
+
+		QString connectionStringShort() const;
 
 		QVariantMap toMap() const;
 		static BrokerProperties fromMap(const QVariantMap &m);

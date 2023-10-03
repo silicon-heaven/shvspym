@@ -15,7 +15,7 @@ ApplicationWindow {
 	width: 360
 	height: 520
 	visible: true
-	title: qsTr("Qt Quick Controls")
+	title: qsTr("SHV Spy")
 
 	//! [orientation]
 	readonly property bool portraitMode: window.width < window.height
@@ -88,7 +88,7 @@ ApplicationWindow {
 
 			Label {
 				id: titleLabel
-				text: listView.currentItem ? (listView.currentItem as ItemDelegate).text : qsTr("Gallery")
+				text: qsTr("SHV Spy")
 				font.pixelSize: 20
 				elide: Label.ElideRight
 				horizontalAlignment: Qt.AlignHCenter
@@ -120,7 +120,7 @@ ApplicationWindow {
 			}
 		}
 	}
-
+	/*
 	Drawer {
 		id: drawer
 
@@ -165,7 +165,7 @@ ApplicationWindow {
 			ScrollIndicator.vertical: ScrollIndicator { }
 		}
 	}
-
+	*/
 	StackView {
 		id: stackView
 
@@ -179,21 +179,26 @@ ApplicationWindow {
 			id: brokerProperties
 			BrokerProperties {
 				onCancelled: stackView.pop()
-				onAddBroker: (broker_propeties) => {
+				onUpdateBroker: (connection_id, broker_propeties) => {
 					stackView.pop()
-					brokerListModel.addBroker(broker_propeties)
+					brokerListModel.updateBroker(connection_id, broker_propeties)
 				}
 			}
 		}
 		Connections {
 			target: brokersPane
 			function onAddBroker() {
-				console.log("add broker 2")
+				//console.log("add broker 2")
 				stackView.push(brokerProperties)
+			}
+			function onEditBroker(connection_id) {
+				console.log("edit broker connection_id", connection_id)
+				let pane = stackView.push(brokerProperties)
+				pane.loadParams(brokerListModel.brokerProperties(connection_id))
 			}
 		}
 	}
-
+/*
 	Dialog {
 		id: settingsDialog
 		x: Math.round((window.width - width) / 2)
@@ -279,4 +284,5 @@ ApplicationWindow {
 			}
 		}
 	}
+	*/
 }

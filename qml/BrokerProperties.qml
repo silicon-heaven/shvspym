@@ -4,16 +4,36 @@ import QtQuick.Layouts
 
 Rectangle {
 	id: form
+	property int connectionId
 	//property StackView stackView
-	signal addBroker(broker_properties: var)
+	signal updateBroker(connection_id: int, broker_properties: var)
 	signal cancelled()
+
+	function createParams() {
+		let props = {
+			connectionId = form.connectionId,
+			name: nameFld.text,
+			scheme: schemeFld.currentText,
+			host: hostFld.text,
+		};
+		return props;
+	}
+	function loadParams(props) {
+		form.connectionId = props.connectionId;
+		nameFld.text = props.name;
+		schemeFld.currentIndex = schemeFld.find(props.scheme);
+		hostFld.text = props.host;
+	}
+
 	Rectangle {
 		id: header
+
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: parent.top
 		height: okBt.height
 		color: "#cbe6b3"
+
 		Button {
 			id: cancelBt
 			text: qsTr("<")
@@ -36,11 +56,8 @@ Rectangle {
 			text: qsTr("Ok")
 			anchors.right: parent.right
 			onClicked: {
-				let props = {
-					name: nameFld.text,
-					connectionString: schemeFld.text + "://" + hostFld.text
-				};
-				form.addBroker(props)
+				let props = form.createParams();
+				form.updateBroker(form.connectionId, props)
 			}
 		}
 	}
@@ -67,11 +84,10 @@ Rectangle {
 		}
 
 		Label {
-			id: schemeFld
 			text: qsTr("Scheme")
 		}
 		ComboBox {
-			id: comboBox
+			id: schemeFld
 			model: ["tcp", "ssl", "ws", "wss", "SerialPort"]
 		}
 
