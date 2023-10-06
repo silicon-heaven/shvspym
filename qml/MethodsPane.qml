@@ -5,7 +5,7 @@ Pane {
 	id: pane
 
 	required property string shvPath
-	required property var nodes
+	required property var methods
 
 	signal back()
 
@@ -37,7 +37,7 @@ Pane {
 	}
 
 	ListView {
-		id: nodeListView
+		id: listView
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: header.bottom
@@ -49,21 +49,19 @@ Pane {
 
 		focus: true
 
-		delegate: NodeListDelegate {
-			width: nodeListView.width;
-			//name: nodeName
+		delegate: MethodDelegate {
+			width: listView.width;
 			//onEditBrokerRequest: (connection_id) => pane.editBroker(connection_id)
 			//onConnectToBrokerRequest: (connection_id) => pane.connectToBroker(connection_id)
 		}
 		ScrollIndicator.vertical: ScrollIndicator { }
 	}
 	Component.onCompleted: {
-		for(let nd of pane.nodes) {
-			//console.log(nd);
-			listModel.append({nodeName: nd, shvPath: pane.shvPath});
+		for(let method of pane.methods) {
+			method.shvPath = pane.shvPath;
+			console.log("method description:", JSON.stringify(method));
+			listModel.append(method);
 		}
-	}
-	Connections {
-		target: app
+
 	}
 }

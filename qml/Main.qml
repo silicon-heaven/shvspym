@@ -191,6 +191,12 @@ ApplicationWindow {
 				onBack: stackView.pop()
 			}
 		}
+		Component {
+			id: methodsPane
+			MethodsPane {
+				onBack: stackView.pop()
+			}
+		}
 		Connections {
 			target: brokersPane
 			function onAddBroker() {
@@ -214,11 +220,14 @@ ApplicationWindow {
 			function onBrokerConnectedChanged(is_connected) {
 				console.log("broker connected changed:", is_connected)
 				if(is_connected) {
-					app.lsNodes("");
+					app.callLs("");
 				}
 			}
 			function onNodesLoaded(shv_path, nodelist) {
 				let pane = stackView.push(nodesPane, {shvPath: shv_path, nodes: nodelist})
+			}
+			function onMethodsLoaded(shv_path, methods) {
+				let pane = stackView.push(methodsPane, {shvPath: shv_path, methods: methods})
 			}
 		}
 	}

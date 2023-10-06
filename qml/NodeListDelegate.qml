@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 
 Rectangle {
 	id: root
@@ -26,9 +27,16 @@ Rectangle {
 		anchors.fill: parent
 		onClicked: {
 			let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-			app.lsNodes(shv_path)
+			app.callLs(shv_path)
 		}
 	}
-
-
+	Button {
+		text: qsTr("Methods")
+		anchors.verticalCenter: parent.verticalCenter
+		anchors.right: parent.right
+		onClicked: {
+			let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+			app.callDir(shv_path)
+		}
+	}
 }

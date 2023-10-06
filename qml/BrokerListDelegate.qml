@@ -52,7 +52,6 @@ Rectangle {
 			onPressed: isDown = true;
 			onReleased: {
 				isDown = false;
-				console.log(brokerRectangle.ListView.view.currentIndex, brokerRectangle.index, brokerRectangle.connectionId)
 				brokerRectangle.connectToBrokerRequest(brokerRectangle.connectionId)
 			}
 		}
@@ -69,13 +68,6 @@ Rectangle {
 		font.pointSize: 15
 		font.bold: true
 		anchors.leftMargin: 11
-	}
-	Connections {
-		target: brokerRectangle
-		function onConnectToBrokerRequest(index) {
-			//text1.color = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
-			console.log("index:", index)
-		}
 	}
 
 	Rectangle {
@@ -109,7 +101,7 @@ Rectangle {
 			onPressed: isDown = true;
 			onReleased: {
 				isDown = false;
-				console.log("edit", brokerRectangle.connectionId)
+				//console.log("edit", brokerRectangle.connectionId)
 				brokerRectangle.editBrokerRequest(brokerRectangle.connectionId)
 			}
 		}

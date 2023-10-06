@@ -36,6 +36,8 @@ qt_add_qml_module(shvspym
 		qml/BrokersPane.qml
 		qml/NodesPane.qml
 		qml/NodeListDelegate.qml
+		qml/MethodsPane.qml
+		qml/MethodDelegate.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

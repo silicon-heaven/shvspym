@@ -24,36 +24,79 @@ void Application::connectToBroker(int connection_id)
 	m_rpcConnection->open();
 }
 
-void Application::lsNodes(const QString &shv_path)
+void Application::callLs(const QString &shv_path)
 {
-	callMethod(shv_path, "ls", {}, this,
-		[this, shv_path](const auto &result) {
-			shvInfo() << result.toStringList().join(',');
+	callRpcMethod(shv_path, "ls", {}, this,
+		[this, shv_path](int rq_id, const auto &result) {
+			//shvInfo() << result.toStringList().join(',');
 			emit nodesLoaded(shv_path, result.toStringList());
 		}
 	);
 }
 
-void Application::callMethod(const QString &shv_path, const QString &method, const QVariant &params, const QObject *context
-							 , std::function<void (const QVariant &)> success_callback
-							 , std::function<void (const shv::chainpack::RpcError &)> error_callback)
+void Application::callDir(const QString &shv_path)
+{
+	callRpcMethod(shv_path, "dir", {}, this,
+		[this, shv_path](int rq_id, const QVariant &result) {
+			QVariantList dir;
+			for(const auto &v : result.toList()) {
+				QVariantMap method;
+				if(v.userType() == qMetaTypeId<QString>()) {
+					method = QVariantMap{{"name", v.toString()}};
+				}
+				else if(v.userType() == qMetaTypeId<QVariantMap>()) {
+					method = v.toMap();
+				}
+				else {
+					shvWarning() << "Unsupported method description type:" << shv::coreqt::rpc::qVariantToRpcValue(v).toCpon();
+				}
+				if(!method.contains("flags")) {
+					method["flags"] = 0; // flags is required property
+				}
+				dir << method;
+			}
+			emit methodsLoaded(shv_path, dir);
+		}
+	);
+}
+
+int Application::callMethod(const QString &shv_path, const QString &method)
+{
+	return callRpcMethod(shv_path, method, {}, this,
+		[this, shv_path](int rq_id, const auto &result) {
+			auto cpon = shv::coreqt::rpc::qVariantToRpcValue(result).toCpon();
+			shvInfo() << cpon;
+			emit methodCallResult(rq_id, QString::fromStdString(cpon), false);
+		},
+		[this, shv_path](int rq_id, const auto &error) {
+			shvError() << error.toString();
+			emit methodCallResult(rq_id, QString::fromStdString(error.toString()), true);
+		}
+	);
+}
+
+int Application::callRpcMethod(const QString &shv_path, const QString &method, const QVariant &params, const QObject *context
+							 , std::function<void (int rq_id, const QVariant &)> success_callback
+							 , std::function<void (int rq_id, const shv::chainpack::RpcError &)> error_callback)
 {
 	if(context == nullptr && (success_callback || error_callback))
 		shvWarning() << shv_path << method << "Context object is NULL";
 	auto *rpcc = shv::iotqt::rpc::RpcCall::create(m_rpcConnection);
+	auto rq_id = m_rpcConnection->nextRequestId();
 	rpcc->setShvPath(shv_path)
 			->setMethod(method)
-			->setParams(shv::coreqt::rpc::qVariantToRpcValue(params));
+			->setParams(shv::coreqt::rpc::qVariantToRpcValue(params))
+			->setRequestId(rq_id);
 	if (rpcc) {
 		if(success_callback) {
-			connect(rpcc, &shv::iotqt::rpc::RpcCall::result, context, [success_callback](const ::shv::chainpack::RpcValue &result) {
+			connect(rpcc, &shv::iotqt::rpc::RpcCall::result, context, [success_callback, rq_id](const ::shv::chainpack::RpcValue &result) {
 				QVariant rv = shv::coreqt::rpc::rpcValueToQVariant(result);
-				success_callback(rv);
+				success_callback(rq_id, rv);
 			});
 		}
 		if(error_callback) {
-			connect(rpcc, &shv::iotqt::rpc::RpcCall::error, context, [error_callback](const shv::chainpack::RpcError &error) {
-				error_callback(error);
+			connect(rpcc, &shv::iotqt::rpc::RpcCall::error, context, [rq_id, error_callback](const shv::chainpack::RpcError &error) {
+				error_callback(rq_id, error);
 			});
 		}
 		else {
@@ -61,11 +104,12 @@ void Application::callMethod(const QString &shv_path, const QString &method, con
 				shvError() << "Call method:" << method << "on path:" << shv_path << "error:" << error.toString();
 			});
 		}
-		rpcc->start();
+		return rpcc->start();
 	}
 	else {
 		shvWarning() << shv_path << method << "RPC connection is not open";
 		if(error_callback)
-			error_callback(shv::chainpack::RpcError("RPC connection is not open"));
+			error_callback(rq_id, shv::chainpack::RpcError("RPC connection is not open"));
 	}
+	return 0;
 }
