@@ -15,6 +15,9 @@ Rectangle {
 			name: nameFld.text,
 			scheme: schemeFld.currentText,
 			host: hostFld.text,
+			port: portFld.value,
+			user: userFld.text,
+			password: passwordFld.text,
 		};
 		return props;
 	}
@@ -23,6 +26,9 @@ Rectangle {
 		nameFld.text = props.name;
 		schemeFld.currentIndex = schemeFld.find(props.scheme);
 		hostFld.text = props.host;
+		portFld.value = props.port;
+		userFld.text = props.user;
+		passwordFld.text = props.password;
 	}
 
 	Rectangle {
@@ -61,44 +67,112 @@ Rectangle {
 			}
 		}
 	}
-	Column {
-		id: column
+	ScrollView {
+		id: scrollView
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: header.bottom
 		anchors.bottom: parent.bottom
-		anchors.topMargin: anchors.rightMargin
 		anchors.rightMargin: 10
+		anchors.topMargin: anchors.rightMargin
 		anchors.leftMargin: anchors.rightMargin
-		spacing: 10
-
-		Label {
-			id: label
-			text: qsTr("Name")
-		}
-		TextField {
-			id: nameFld
+		contentWidth: scrollView.width
+		contentHeight: column.height
+		Column {
+			id: column
 			anchors.left: parent.left
 			anchors.right: parent.right
-			placeholderText: qsTr("Broker name")
-		}
+			anchors.rightMargin: 0
+			spacing: 10
 
-		Label {
-			text: qsTr("Scheme")
-		}
-		ComboBox {
-			id: schemeFld
-			model: ["tcp", "ssl", "ws", "wss", "SerialPort"]
-		}
+			Label {
+				id: label
+				text: qsTr("Name")
+			}
+			TextField {
+				id: nameFld
+				anchors.left: parent.left
+				anchors.right: parent.right
+				placeholderText: qsTr("Broker name")
+			}
 
-		Label {
-			text: qsTr("Host")
-		}
-		TextField {
-			id: hostFld
-			anchors.left: parent.left
-			anchors.right: parent.right
-			placeholderText: qsTr("Host")
+			Label {
+				text: qsTr("Scheme")
+			}
+			ComboBox {
+				id: schemeFld
+				model: ["tcp", "ssl", "ws", "wss", "SerialPort"]
+			}
+
+			Label {
+				text: qsTr("Host")
+			}
+			TextField {
+				id: hostFld
+				anchors.left: parent.left
+				anchors.right: parent.right
+				placeholderText: qsTr("Host")
+			}
+
+			Label {
+				text: qsTr("Port")
+			}
+			SpinBox {
+				id: portFld
+				wheelEnabled: true
+				value: 3755
+				to: 65535
+				from: 1024
+				editable: true
+			}
+
+			Label {
+				text: qsTr("User")
+			}
+			TextField {
+				id: userFld
+				anchors.left: parent.left
+				anchors.right: parent.right
+				placeholderText: qsTr("User")
+			}
+
+			Label {
+				text: qsTr("Password")
+			}
+			RowLayout {
+				id: row
+				anchors.left: parent.left
+				anchors.right: parent.right
+				TextField {
+					id: passwordFld
+					Layout.fillWidth: true
+					echoMode: button.checked? TextInput.Normal: TextInput.Password
+					placeholderText: qsTr("Password")
+				}
+				/*
+				Text {
+					id: ocko
+					property bool checked: false
+					text: "👁"
+					font.pointSize: 20
+					height: passwordFld.height
+					MouseArea {
+						anchors.fill: parent
+
+					}
+				}
+				*/
+				Button {
+					id: button
+					//height: passwordFld.height
+					text: "👁"
+					font.pointSize: 15
+					flat: true
+					checkable: true
+				}
+			}
+
 		}
 	}
+
 }

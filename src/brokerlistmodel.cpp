@@ -76,6 +76,16 @@ QVariantMap BrokerListModel::brokerProperties(int connection_id) const
 	return {};
 }
 
+BrokerListModel::BrokerProperties BrokerListModel::brokerPropertiesStruct(int connection_id) const
+{
+	for(qsizetype i = 0; i < m_brokers.size(); ++i) {
+		if(m_brokers[i].connectionId == connection_id) {
+			return m_brokers[i];
+		}
+	}
+	return {};
+}
+
 QVariant BrokerListModel::data(const QModelIndex &index, int role) const
 {
 	auto row = index.row();
@@ -97,6 +107,9 @@ constexpr auto ConnectionString = "connectionString";
 constexpr auto Name = "name";
 constexpr auto Scheme = "scheme";
 constexpr auto Host = "host";
+constexpr auto Port = "port";
+constexpr auto User = "user";
+constexpr auto Password = "password";
 
 constexpr auto Brokers = "brokers";
 }
@@ -154,6 +167,22 @@ QString BrokerListModel::BrokerProperties::connectionStringShort() const
 	return ret;
 }
 
+QString BrokerListModel::BrokerProperties::connectionString() const
+{
+	QString ret = scheme;
+	ret += "://";
+	if(!user.isEmpty()) {
+		ret += user;
+		if(!password.isEmpty()) {
+			ret += ':' + password;
+		}
+		ret += '@';
+	}
+	ret += host;
+	ret += ':' + QString::number(port);
+	return ret;
+}
+
 QVariantMap BrokerListModel::BrokerProperties::toMap() const
 {
 	QVariantMap ret;
@@ -161,15 +190,22 @@ QVariantMap BrokerListModel::BrokerProperties::toMap() const
 	ret[Name] = name;
 	ret[Scheme] = scheme;
 	ret[Host] = host;
+	ret[Port] = port;
+	ret[User] = user;
+	ret[Password] = password;
 	return ret;
 }
 
 BrokerListModel::BrokerProperties BrokerListModel::BrokerProperties::fromMap(const QVariantMap &m)
 {
+	auto port = m.value(Port).toInt();
 	return BrokerProperties {
 		.connectionId = m.value(ConnectionId).toInt(),
 				.name = m.value(Name).toString(),
 				.scheme = m.value(Scheme).toString(),
 				.host = m.value(Host).toString(),
+				.port = port > 1024? port: 3755,
+				.user = m.value(User).toString(),
+				.password = m.value(Password).toString(),
 	};
 }

@@ -38,7 +38,7 @@ ApplicationWindow {
 		id: settings
 		property string style
 	}
-
+	/*
 	Shortcut {
 		sequences: ["Esc", "Back"]
 		enabled: stackView.depth > 1
@@ -79,7 +79,7 @@ ApplicationWindow {
 		RowLayout {
 			spacing: 20
 			anchors.fill: parent
-			anchors.leftMargin: !window.portraitMode ? drawer.width : undefined
+			//anchors.leftMargin: !window.portraitMode ? drawer.width : undefined
 
 			ToolButton {
 				action: navigateBackAction
@@ -120,7 +120,7 @@ ApplicationWindow {
 			}
 		}
 	}
-	/*
+
 	Drawer {
 		id: drawer
 
@@ -170,7 +170,7 @@ ApplicationWindow {
 		id: stackView
 
 		anchors.fill: parent
-		anchors.leftMargin: !window.portraitMode ? drawer.width : undefined
+		//anchors.leftMargin: !window.portraitMode ? drawer.width : undefined
 
 		initialItem: BrokersPane {
 			id: brokersPane
@@ -181,8 +181,14 @@ ApplicationWindow {
 				onCancelled: stackView.pop()
 				onUpdateBroker: (connection_id, broker_propeties) => {
 					stackView.pop()
-					brokerListModel.updateBroker(connection_id, broker_propeties)
+					app.brokerListModel.updateBroker(connection_id, broker_propeties)
 				}
+			}
+		}
+		Component {
+			id: nodesPane
+			NodesPane {
+				onBack: stackView.pop()
 			}
 		}
 		Connections {
@@ -194,7 +200,25 @@ ApplicationWindow {
 			function onEditBroker(connection_id) {
 				console.log("edit broker connection_id", connection_id)
 				let pane = stackView.push(brokerProperties)
-				pane.loadParams(brokerListModel.brokerProperties(connection_id))
+				pane.loadParams(app.brokerListModel.brokerProperties(connection_id))
+			}
+			function onConnectToBroker(connection_id) {
+				console.log("connect to broker connection_id", connection_id)
+				app.connectToBroker(connection_id)
+				//let pane = stackView.push(brokerProperties)
+				//pane.loadParams(app.brokerListModel.brokerProperties(connection_id))
+			}
+		}
+		Connections {
+			target: app
+			function onBrokerConnectedChanged(is_connected) {
+				console.log("broker connected changed:", is_connected)
+				if(is_connected) {
+					app.lsNodes("");
+				}
+			}
+			function onNodesLoaded(shv_path, nodelist) {
+				let pane = stackView.push(nodesPane, {shvPath: shv_path, nodes: nodelist})
 			}
 		}
 	}

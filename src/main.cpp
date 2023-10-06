@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 		QLatin1String("Universal")
 	};
 	engine.setInitialProperties({{ "builtInStyles", builtInStyles }});
-	engine.rootContext()->setContextProperty("brokerListModel", app.brokerListModelObject());
+	engine.rootContext()->setContextProperty("app", &app);
 	engine.loadFromModule("shvspymqml", "Main");
 
 	return app.exec();

@@ -6,6 +6,7 @@ Pane {
 
 	signal addBroker()
 	signal editBroker(connection_id: int);
+	signal connectToBroker(connection_id: int);
 
 	ListView {
 		id: brokerListView
@@ -13,10 +14,11 @@ Pane {
 		focus: true
 		anchors.fill: parent
 
-		model: brokerListModel
+		model: app.brokerListModel
 		delegate: BrokerListDelegate {
 			width: brokerListView.width;
 			onEditBrokerRequest: (connection_id) => pane.editBroker(connection_id)
+			onConnectToBrokerRequest: (connection_id) => pane.connectToBroker(connection_id)
 		}
 		/*
 				delegate: ItemDelegate {
