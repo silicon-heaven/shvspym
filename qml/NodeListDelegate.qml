@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 Rectangle {
 	id: root
-	height: 30
+	height: button.height
 	color: "#d5f3c0"
 	radius: 5
 	border.color: "#69ac77"
@@ -15,9 +15,11 @@ Rectangle {
 	Text {
 		id: nodeName
 		text: root.nodeName? root.nodeName: "node name"
-		anchors.fill: parent
-		verticalAlignment: Text.AlignVCenter
-		font.pointSize: 10
+		elide: Text.ElideLeft
+		anchors.verticalCenter: parent.verticalCenter
+		anchors.left: parent.left
+		anchors.right: parent.right
+		font.pointSize: 15
 		font.bold: true
 		anchors.leftMargin: 5
 	}
@@ -31,6 +33,7 @@ Rectangle {
 		}
 	}
 	Button {
+		id: button
 		text: qsTr("Methods")
 		anchors.verticalCenter: parent.verticalCenter
 		anchors.right: parent.right

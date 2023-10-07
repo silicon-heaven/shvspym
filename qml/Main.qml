@@ -169,6 +169,8 @@ ApplicationWindow {
 	StackView {
 		id: stackView
 
+		//property var rootItem: null
+
 		anchors.fill: parent
 		//anchors.leftMargin: !window.portraitMode ? drawer.width : undefined
 
@@ -189,6 +191,11 @@ ApplicationWindow {
 			id: nodesPane
 			NodesPane {
 				onBack: stackView.pop()
+				onGotoRoot: {
+					while(stackView.depth > 2) {
+						stackView.pop()
+					}
+				}
 			}
 		}
 		Component {

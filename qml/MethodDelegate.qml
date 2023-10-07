@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 Rectangle {
 	id: root
-	height: nodeName.height + fldResult.height + 4
+	height: nodeName.contentHeight + fldResult.contentHeight + 5;
 
 	color: defaultBackground
 	radius: 5
@@ -24,27 +24,26 @@ Rectangle {
 		text: root.name? root.name: "method name"
 		anchors.top: parent.top
 		anchors.topMargin: 4
-		font.pointSize: 10
+		font.pointSize: 15
 		font.bold: true
 	}
 	Text {
 		id: fldResult
-		height: contentHeight
+		//height: contentHeight
 		anchors.left: parent.left
 		anchors.right: buttonCall.left
-		anchors.bottom: parent.bottom
-		font.pixelSize: 12
+		anchors.top: nodeName.bottom
+		font.pixelSize: nodeName.font.pixelSize
 		wrapMode: Text.WrapAnywhere
-		fontSizeMode: Text.VerticalFit
+		//fontSizeMode: Text.VerticalFit
 		anchors.leftMargin: 8
 	}
 
 	Button {
 		id: buttonCall
 		text: qsTr("Call")
+		anchors.verticalCenter: parent.verticalCenter
 		anchors.right: parent.right
-		anchors.top: parent.top
-		anchors.bottom: parent.bottom
 		onClicked: {
 			//let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
 			root.requestId = app.callMethod(root.shvPath, root.name)

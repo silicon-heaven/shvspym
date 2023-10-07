@@ -23,7 +23,7 @@ qt_add_executable(shvspym
 	src/application.cpp
 	src/rpcconnection.cpp
 	src/brokerlistmodel.cpp
-#	src/brokerproperty.cpp
+	src/preferences.cpp
 )
 
 qt_add_qml_module(shvspym
@@ -38,6 +38,11 @@ qt_add_qml_module(shvspym
 		qml/NodeListDelegate.qml
 		qml/MethodsPane.qml
 		qml/MethodDelegate.qml
+	RESOURCES
+		images/pencil.svg
+		images/back.svg
+		images/goto-root.svg
+		images/connect.svg
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

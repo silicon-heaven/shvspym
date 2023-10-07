@@ -8,6 +8,7 @@ Pane {
 	required property var nodes
 
 	signal back()
+	signal gotoRoot()
 
 	Rectangle {
 		id: header
@@ -16,23 +17,33 @@ Pane {
 		anchors.right: parent.right
 		anchors.top: parent.top
 		height: cancelBt.height
-		color: "#cbe6b3"
+		color: "#b3e4e6"
 
 		Button {
 			id: cancelBt
 			text: qsTr("<")
 			anchors.left: parent.left
-			display: AbstractButton.TextOnly
+			icon.source: "../images/back.svg"
+			display: AbstractButton.IconOnly
 			width: height
 			onClicked: pane.back()
+		}
+		Button {
+			id: rootBt
+			text: qsTr("/")
+			anchors.left: cancelBt.right
+			icon.source: "../images/goto-root.svg"
+			display: AbstractButton.IconOnly
+			width: height
+			onClicked: pane.gotoRoot()
 		}
 		Label {
 			text: shvPath
 			anchors.verticalCenter: parent.verticalCenter
-			anchors.right: parent.right
+			anchors.left: rootBt.right
 			horizontalAlignment: Text.AlignHCenter
 			font.bold: true
-			anchors.left: cancelBt.right
+			anchors.right: parent.right
 		}
 	}
 

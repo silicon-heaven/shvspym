@@ -26,29 +26,20 @@ Rectangle {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 
-		Text {
-			x: 0
-			y: 0
-			color: "white"
-			text: "⏻ "
-			anchors.left: parent.left
-			anchors.right: parent.right
-			anchors.top: parent.top
-			anchors.bottom: parent.bottom
-			font.pixelSize: 30
-			horizontalAlignment: Text.AlignHCenter
-			verticalAlignment: Text.AlignVCenter
-			anchors.leftMargin: 8
-			anchors.topMargin: 8
+		Image {
+			anchors.fill: parent
+			source: "../images/connect.svg"
+			anchors.rightMargin: 5
+			anchors.leftMargin: anchors.rightMargin
+			anchors.bottomMargin: anchors.rightMargin
+			anchors.topMargin: anchors.rightMargin
+			fillMode: Image.PreserveAspectFit
 		}
 
 		MouseArea {
 			id: mouseArea
 			property bool isDown: false
-			anchors.left: parent.left
-			anchors.right: parent.right
-			anchors.top: parent.top
-			anchors.bottom: parent.bottom
+			anchors.fill: parent
 			onPressed: isDown = true;
 			onReleased: {
 				isDown = false;
@@ -79,16 +70,15 @@ Rectangle {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 		color: mouseArea2.isDown? "#c0f2bc": "#00000000"
-		Text {
-			color: "#5d5b5b"
-			text: "🖉"
-			anchors.left: parent.left
-			anchors.right: parent.right
-			anchors.top: parent.top
-			anchors.bottom: parent.bottom
-			font.pixelSize: 30
-			horizontalAlignment: Text.AlignHCenter
-			verticalAlignment: Text.AlignVCenter
+		Image {
+			id: image
+			anchors.fill: parent
+			anchors.rightMargin: 5
+			anchors.leftMargin: anchors.rightMargin
+			anchors.bottomMargin: anchors.rightMargin
+			anchors.topMargin: anchors.rightMargin
+			source: "../images/pencil.svg"
+			fillMode: Image.PreserveAspectFit
 		}
 
 		MouseArea {
