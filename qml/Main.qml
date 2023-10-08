@@ -94,6 +94,13 @@ ApplicationWindow {
 				//pane.loadParams(app.brokerListModel.brokerProperties(connection_id))
 			}
 		}
+		Component {
+			id: errorPane
+			TextViewPane {
+				showError: true
+				onBack: stackView.pop()
+			}
+		}
 		Connections {
 			target: app
 			function onBrokerConnectedChanged(is_connected) {
@@ -102,11 +109,14 @@ ApplicationWindow {
 					app.callLs("");
 				}
 			}
+			function onConnetToBrokerError(errmsg) {
+				stackView.push(errorPane, {text: errmsg})
+			}
 			function onNodesLoaded(shv_path, nodelist) {
 				let pane = stackView.push(nodesPane, {shvPath: shv_path, nodes: nodelist})
 			}
 			function onMethodsLoaded(shv_path, methods) {
-				let pane = stackView.push(methodsPane, {shvPath: shv_path, methods: methods})
+				let pane = stackView.push(methodsPane, {shvPath: shv_path, methods: methods, stackView: stackView})
 			}
 		}
 	}

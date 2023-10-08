@@ -5,6 +5,8 @@
 #include <shv/iotqt/rpc/rpcresponsecallback.h>
 #include <shv/coreqt/log.h>
 
+#include <QDebug>
+
 Application::Application(int &argc, char **argv)
 	: Super(argc, argv)
 	, m_brokerListModel(new BrokerListModel(this))
@@ -14,18 +16,17 @@ Application::Application(int &argc, char **argv)
 {
 	connect(m_rpcConnection, &RpcConnection::brokerConnectedChanged, this, &Application::brokerConnectedChanged);
 	connect(m_rpcConnection, &RpcConnection::brokerLoginError, this, [this](const shv::chainpack::RpcError &err) {
-		shvError() << "connect to broker error:" << err.toString();
+		qWarning() << "connect to broker error:" << err.toString();
 		emit connetToBrokerError(QString::fromStdString(err.toString()));
 	});
 }
 
 void Application::connectToBroker(int connection_id)
 {
-	shvInfo() << __PRETTY_FUNCTION__;
 	m_rpcConnection->close();
 	auto props = m_brokerListModel->brokerPropertiesStruct(connection_id);
 	m_rpcConnection->setConnectionString(props.connectionString());
-	shvInfo() << "connecting to broker:" << m_rpcConnection->connectionUrl().toDisplayString();
+	qDebug() << "connecting to broker:" << m_rpcConnection->connectionUrl().toDisplayString();
 	m_rpcConnection->open();
 }
 

@@ -40,6 +40,8 @@ qt_add_qml_module(shvspym
 		qml/NodeDelegate.qml
 		qml/MethodsPane.qml
 		qml/MethodDelegate.qml
+		qml/TextViewPane.qml
+
 	RESOURCES
 		images/pencil.svg
 		images/back.svg
