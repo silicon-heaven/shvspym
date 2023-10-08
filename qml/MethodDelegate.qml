@@ -8,6 +8,7 @@ Rectangle {
 
 	color: backgroundColor()
 
+	required property StackView stackView
 	required property string index
 	required property string name
 	required property string shvPath
@@ -37,19 +38,30 @@ Rectangle {
 					id: nodeName
 					Layout.fillWidth: true
 					text: root.name? root.name: "method name"
-					font.pointSize: app.settings.fontSize
+					font.pixelSize: app.settings.fontSize
 					font.bold: true
 				}
 				Text {
 					id: fldFlags
-					font.pointSize: app.settings.fontSize
+					font.pixelSize: app.settings.fontSize
 					text: root.isGetter? "G": ""
 				}
 			}
 			Text {
 				id: fldResult
-				font.pixelSize: nodeName.font.pixelSize
-				font.pointSize: app.settings.fontSize
+				font.pixelSize: app.settings.fontSize
+			}
+			Component {
+				id: resultPane
+				TextViewPane {
+					onBack: stackView.pop()
+				}
+			}
+			TapHandler {
+				onTapped: {
+					console.log("result:" , fldResult.text)
+					stackView.push(resultPane, {text: fldResult.text, headerText: qsTr("RPC Result")});
+				}
 			}
 		}
 		Button {

@@ -4,6 +4,7 @@ import QtQuick.Controls
 Pane {
 	id: pane
 
+	required property StackView stackView
 	required property string shvPath
 	required property var methods
 
@@ -54,6 +55,7 @@ Pane {
 
 		delegate: MethodDelegate {
 			width: listView.width;
+			stackView: pane.stackView
 			//onEditBrokerRequest: (connection_id) => pane.editBroker(connection_id)
 			//onConnectToBrokerRequest: (connection_id) => pane.connectToBroker(connection_id)
 		}
