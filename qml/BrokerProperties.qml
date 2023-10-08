@@ -53,7 +53,6 @@ Rectangle {
 			Text {
 				Layout.fillWidth: true
 				text: qsTr("Broker properties")
-				anchors.verticalCenter: parent.verticalCenter
 				horizontalAlignment: Text.AlignHCenter
 				font.bold: true
 				font.pixelSize: app.settings.fontSize
@@ -65,6 +64,7 @@ Rectangle {
 				iconSource: "../images/ok.svg"
 				iconMargin: 10
 				onTapped: {
+					schemeFld.focus = true
 					let props = form.createParams();
 					form.updateBroker(form.connectionId, props)
 				}

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 
 Rectangle {
-	id: brokerRectangle
+	id: root
 	height: 50
 	color: app.settings.delegateColor
 
@@ -26,7 +26,7 @@ Rectangle {
 			iconSource: "../images/connect.svg"
 			iconMargin: 5
 			onTapped: {
-				brokerRectangle.connectToBrokerRequest(brokerRectangle.connectionId)
+				root.connectToBrokerRequest(root.connectionId)
 			}
 		}
 		Column {
@@ -34,14 +34,14 @@ Rectangle {
 			Text {
 				id: name
 				height: 27
-				text: brokerRectangle.name? brokerRectangle.name: "Connection name"
+				text: root.name? root.name: "Connection name"
 				//verticalAlignment: Text.AlignVCenter
 				font.pointSize: app.settings.fontSize
 				font.bold: true
 			}
 			Text {
 				id: connectionString
-				text: brokerRectangle.connectionString? brokerRectangle.connectionString: "Connection string"
+				text: root.connectionString? root.connectionString: "Connection string"
 				font.pointSize: app.settings.fontSize
 			}
 		}
@@ -52,7 +52,7 @@ Rectangle {
 			color: app.settings.delegateColor
 			iconSource: "../images/pencil.svg"
 			onTapped: {
-				brokerRectangle.editBrokerRequest(brokerRectangle.connectionId)
+				root.editBrokerRequest(root.connectionId)
 			}
 		}
 	}

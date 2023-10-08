@@ -9,7 +9,7 @@ class Settings : public QObject
 	Q_OBJECT
 
 	//Q_PROPERTY(bool isDarkModeActive READ isDarkModeActive NOTIFY isDarkModeActiveChanged)
-	Q_PROPERTY(QColor fontSize READ fontSize CONSTANT)
+	Q_PROPERTY(int fontSize READ fontSize CONSTANT)
 	Q_PROPERTY(QColor backgroundColor READ backgroundColor CONSTANT)
 	Q_PROPERTY(QColor headerColor READ headerColor CONSTANT)
 	Q_PROPERTY(QColor headerTextColor READ headerTextColor CONSTANT)
