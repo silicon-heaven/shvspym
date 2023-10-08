@@ -1,5 +1,6 @@
 #include "application.h"
 #include "rpcconnection.h"
+#include "settings.h"
 
 #include <shv/iotqt/rpc/rpcresponsecallback.h>
 #include <shv/coreqt/log.h>
@@ -9,6 +10,7 @@ Application::Application(int &argc, char **argv)
 	, m_brokerListModel(new BrokerListModel(this))
 	, m_crypt(shv::core::utils::Crypt::createGenerator(17456, 3148, 2147483647))
 	, m_rpcConnection(new RpcConnection(this))
+	, m_settings(new Settings(this))
 {
 	connect(m_rpcConnection, &RpcConnection::brokerConnectedChanged, this, &Application::brokerConnectedChanged);
 	connect(m_rpcConnection, &RpcConnection::brokerLoginError, this, [this](const shv::chainpack::RpcError &err) {

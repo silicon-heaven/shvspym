@@ -4,13 +4,15 @@ import QtQuick.Controls
 Rectangle {
 	id: root
 	height: button.height
-	color: "#d5f3c0"
-	radius: 5
-	border.color: "#69ac77"
+	color: index % 2? app.settings.delegateAltColor: app.settings.delegateColor
+	//radius: 5
+	//border.color: "#69ac77"
+	border.width: 0
 	width: 300
 
 	required property string nodeName
 	required property string shvPath
+	required property int index
 
 	Text {
 		id: nodeName

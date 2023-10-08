@@ -9,6 +9,7 @@ Pane {
 
 	signal back()
 	signal gotoRoot()
+	padding: 0
 
 	Rectangle {
 		id: header
@@ -17,33 +18,36 @@ Pane {
 		anchors.right: parent.right
 		anchors.top: parent.top
 		height: cancelBt.height
-		color: "#b3e4e6"
+		color: app.settings.headerColor
 
-		Button {
-			id: cancelBt
-			text: qsTr("<")
+		Row {
 			anchors.left: parent.left
-			icon.source: "../images/back.svg"
-			display: AbstractButton.IconOnly
-			width: height
-			onClicked: pane.back()
-		}
-		Button {
-			id: rootBt
-			text: qsTr("/")
-			anchors.left: cancelBt.right
-			icon.source: "../images/goto-root.svg"
-			display: AbstractButton.IconOnly
-			width: height
-			onClicked: pane.gotoRoot()
-		}
-		Label {
-			text: shvPath
-			anchors.verticalCenter: parent.verticalCenter
-			anchors.left: rootBt.right
-			horizontalAlignment: Text.AlignHCenter
-			font.bold: true
 			anchors.right: parent.right
+			spacing: 5
+			MyButton {
+				id: cancelBt
+				iconMargin: 10
+				iconSource: "../images/back.svg"
+				width: header.height
+				onTapped: pane.back()
+			}
+			MyButton {
+				id: rootBt
+				color: cancelBt.color
+				border.color: cancelBt.border.color
+				iconMargin: 10
+				iconSource: "../images/goto-root.svg"
+				width: header.height
+				onTapped: pane.gotoRoot()
+			}
+			Text {
+				color: app.settings.headerTextColor
+				text: pane.shvPath? pane.shvPath: "shv path"
+				anchors.verticalCenter: parent.verticalCenter
+				horizontalAlignment: Text.AlignHCenter
+				style: Text.Normal
+				font.bold: true
+			}
 		}
 	}
 
@@ -60,7 +64,7 @@ Pane {
 
 		focus: true
 
-		delegate: NodeListDelegate {
+		delegate: NodeDelegate {
 			width: nodeListView.width;
 			//name: nodeName
 			//onEditBrokerRequest: (connection_id) => pane.editBroker(connection_id)

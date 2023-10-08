@@ -17,6 +17,7 @@ class Application : public QGuiApplication
 	using Super = QGuiApplication;
 
 	Q_PROPERTY(QObject* brokerListModel READ brokerListModelObject CONSTANT)
+	Q_PROPERTY(QObject* settings READ settings CONSTANT)
 
 public:
 	Application(int &argc, char **argv);
@@ -33,11 +34,13 @@ public:
 	Q_SIGNAL void methodCallResult(int request_id, const QString &result, bool is_error);
 
 	static Application* instance() {return qobject_cast<Application*>(Super::instance());}
-	QObject* brokerListModelObject() { return m_brokerListModel; }
 
 	const shv::core::utils::Crypt& crypt() {return m_crypt;}
 
 private:
+	QObject* brokerListModelObject() { return m_brokerListModel; }
+	QObject* settings() { return m_settings; }
+
 	int callRpcMethod(const QString &shv_path, const QString &method, const QVariant &params = QVariant(),
 							const QObject *context = nullptr,
 							std::function<void (int, const QVariant &)> success_callback = nullptr,
@@ -46,6 +49,7 @@ private:
 	BrokerListModel *m_brokerListModel;
 	shv::core::utils::Crypt m_crypt;
 	RpcConnection *m_rpcConnection;
+	QObject *m_settings;
 };
 
 #endif // APPLICATION_H

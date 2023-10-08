@@ -5,18 +5,20 @@ Rectangle {
 	id: root
 	height: nodeName.contentHeight + fldResult.contentHeight + 5;
 
-	color: defaultBackground
-	radius: 5
-	border.color: "#69ac77"
-	width: 300
+	color: backgroundColor()
 
+	required property string index
 	required property string name
 	required property string shvPath
 	required property int flags
 	property bool isGetter: flags & 2
 
-	property string defaultBackground: "#d5f3c0"
 	property int requestId: 0
+
+	function backgroundColor() {
+		return root.index % 2? app.settings.delegateAltColor: app.settings.delegateColor
+
+	}
 
 	Text {
 		id: nodeName
@@ -63,7 +65,7 @@ Rectangle {
 			if(rq_id === root.requestId) {
 				console.log(rq_id, JSON.stringify(result), is_error);
 				fldResult.text = result;
-				root.color = is_error? "darksalmon": root.defaultBackground
+				root.color = is_error? "darksalmon": root.backgroundColor()
 			}
 		}
 	}

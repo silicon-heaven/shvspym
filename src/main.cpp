@@ -1,5 +1,4 @@
 #include "application.h"
-#include "preferences.h"
 
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -12,7 +11,6 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationName("shvspym");
 	QCoreApplication::setApplicationVersion("0.0.1");
 
-	Preferences preferences;
 	Application app(argc, argv);
 
 	QQmlApplicationEngine engine;
@@ -30,7 +28,6 @@ int main(int argc, char *argv[])
 	};
 	engine.setInitialProperties({{ "builtInStyles", builtInStyles }});
 	engine.rootContext()->setContextProperty("app", &app);
-	engine.rootContext()->setContextProperty("preferences", &preferences);
 	engine.loadFromModule("shvspymqml", "Main");
 
 	return app.exec();

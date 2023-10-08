@@ -8,31 +8,34 @@ Pane {
 	required property var methods
 
 	signal back()
+	padding: 0
 
 	Rectangle {
 		id: header
 
+		height: 54
+		color: "#278f00"
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: parent.top
-		height: cancelBt.height
-		color: "#cbe6b3"
-
-		Button {
-			id: cancelBt
-			text: qsTr("<")
+		Row {
 			anchors.left: parent.left
-			display: AbstractButton.TextOnly
-			width: height
-			onClicked: pane.back()
-		}
-		Label {
-			text: shvPath
-			anchors.verticalCenter: parent.verticalCenter
 			anchors.right: parent.right
-			horizontalAlignment: Text.AlignHCenter
-			font.bold: true
-			anchors.left: cancelBt.right
+			spacing: 5
+			MyButton {
+				id: cancelBt
+				width: header.height
+				height: width
+				iconMargin: 15
+				iconSource: "../images/back.svg"
+				onTapped: pane.back()
+			}
+			Text {
+				color: app.settings.headerTextColor
+				text: pane.shvPath? pane.shvPath: "shv path"
+				anchors.verticalCenter: parent.verticalCenter
+				font.bold: true
+			}
 		}
 	}
 
