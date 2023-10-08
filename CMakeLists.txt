@@ -19,6 +19,7 @@ set(WITH_VISU OFF CACHE BOOL "")
 add_subdirectory(3rdparty/libshv)
 
 qt_add_executable(shvspym
+	shvspym.qrc
 	src/main.cpp
 	src/settings.cpp
 	src/application.cpp
@@ -32,7 +33,7 @@ qt_add_qml_module(shvspym
     QML_FILES
 		qml/Main.qml
 		qml/MyButton.qml
-		qml/BrokerListDelegate.qml
+		qml/BrokerDelegate.qml
 		qml/BrokerProperties.qml
 		qml/BrokersPane.qml
 		qml/NodesPane.qml
@@ -42,9 +43,14 @@ qt_add_qml_module(shvspym
 	RESOURCES
 		images/pencil.svg
 		images/back.svg
+		images/ok.svg
 		images/goto-root.svg
 		images/connect.svg
 		images/plus.svg
+		images/eye.svg
+
+
+
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -58,7 +64,11 @@ set_target_properties(shvspym PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-#target_include_directories(shvspy PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(TARGET shvspym APPEND PROPERTY
+    QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
+)
+
+#qt_finalize_executable(shvspym)
 
 target_link_libraries(shvspym
     PRIVATE Qt6::Quick libshviotqt

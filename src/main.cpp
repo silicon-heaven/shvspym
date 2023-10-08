@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setApplicationVersion("0.0.1");
 
 	Application app(argc, argv);
+	app.setWindowIcon(QIcon(":/images/shvspy.svg"));
 
 	QQmlApplicationEngine engine;
 	QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() {

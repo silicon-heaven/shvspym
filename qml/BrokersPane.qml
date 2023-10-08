@@ -15,7 +15,7 @@ Pane {
 		anchors.fill: parent
 
 		model: app.brokerListModel
-		delegate: BrokerListDelegate {
+		delegate: BrokerDelegate {
 			width: brokerListView.width;
 			onEditBrokerRequest: (connection_id) => pane.editBroker(connection_id)
 			onConnectToBrokerRequest: (connection_id) => pane.connectToBroker(connection_id)
@@ -28,6 +28,7 @@ Pane {
 		height: 50
 		color: "#cf9d15"
 		radius: height/2
+		border.width: 0
 
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
@@ -35,7 +36,6 @@ Pane {
 		iconSource: "../images/plus.svg"
 
 		onTapped: {
-			id: mouseArea
 			pane.addBroker()
 		}
 	}

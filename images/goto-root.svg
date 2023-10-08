@@ -24,8 +24,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.9981322"
-     inkscape:cx="124.61638"
-     inkscape:cy="85.830158"
+     inkscape:cx="124.86661"
+     inkscape:cy="85.830157"
      inkscape:window-width="1920"
      inkscape:window-height="1006"
      inkscape:window-x="0"
@@ -55,7 +55,7 @@
     <path
        d="M 21.18119,5.3462805 8.308865,39.898312 H 4.1471357 L 17.019461,5.3462805 Z"
        id="text1"
-       style="font-size:48.3922px;line-height:1.25;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
+       style="font-size:48.3922px;line-height:1.25;-inkscape-font-specification:sans-serif;stroke-width:0.264583;fill:#deddda"
        transform="scale(1.3263395,0.75395477)"
        aria-label="/" />
   </g>

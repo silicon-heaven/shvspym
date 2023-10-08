@@ -38,34 +38,39 @@ Rectangle {
 		anchors.right: parent.right
 		anchors.top: parent.top
 		height: okBt.height
-		color: "#cbe6b3"
+		color: app.settings.headerColor
 
-		Button {
-			id: cancelBt
-			text: qsTr("<")
+		RowLayout {
 			anchors.left: parent.left
-			display: AbstractButton.TextOnly
-			width: height
-			onClicked: form.cancelled()
-		}
-		Label {
-			text: qsTr("Broker properties")
-			anchors.verticalCenter: parent.verticalCenter
-			anchors.right: okBt.left
-			horizontalAlignment: Text.AlignHCenter
-			font.bold: true
-			anchors.left: cancelBt.right
-		}
-		Button {
-			id: okBt
-			width: height * 2
-			text: qsTr("Ok")
 			anchors.right: parent.right
-			onClicked: {
-				let props = form.createParams();
-				form.updateBroker(form.connectionId, props)
+			MyButton {
+				id: cancelBt
+				width: height
+				iconSource: "../images/back.svg"
+				iconMargin: 10
+				onTapped: form.cancelled()
+			}
+			Text {
+				Layout.fillWidth: true
+				text: qsTr("Broker properties")
+				anchors.verticalCenter: parent.verticalCenter
+				horizontalAlignment: Text.AlignHCenter
+				font.bold: true
+				font.pixelSize: app.settings.fontSize
+				color: app.settings.backgroundColor
+			}
+			MyButton {
+				id: okBt
+				width: height
+				iconSource: "../images/ok.svg"
+				iconMargin: 10
+				onTapped: {
+					let props = form.createParams();
+					form.updateBroker(form.connectionId, props)
+				}
 			}
 		}
+
 	}
 	ScrollView {
 		id: scrollView
@@ -85,7 +90,11 @@ Rectangle {
 			anchors.rightMargin: 0
 			spacing: 10
 
-			Label {
+			component FldLabel : Text {
+				color: app.settings.headerColor
+			}
+
+			FldLabel {
 				id: label
 				text: qsTr("Name")
 			}
@@ -96,7 +105,7 @@ Rectangle {
 				placeholderText: qsTr("Broker name")
 			}
 
-			Label {
+			FldLabel {
 				text: qsTr("Scheme")
 			}
 			ComboBox {
@@ -104,7 +113,7 @@ Rectangle {
 				model: ["tcp", "ssl", "ws", "wss", "SerialPort"]
 			}
 
-			Label {
+			FldLabel {
 				text: qsTr("Host")
 			}
 			TextField {
@@ -114,7 +123,7 @@ Rectangle {
 				placeholderText: qsTr("Host")
 			}
 
-			Label {
+			FldLabel {
 				text: qsTr("Port")
 			}
 			SpinBox {
@@ -126,7 +135,7 @@ Rectangle {
 				editable: true
 			}
 
-			Label {
+			FldLabel {
 				text: qsTr("User")
 			}
 			TextField {
@@ -136,7 +145,7 @@ Rectangle {
 				placeholderText: qsTr("User")
 			}
 
-			Label {
+			FldLabel {
 				text: qsTr("Password")
 			}
 			RowLayout {
@@ -149,30 +158,17 @@ Rectangle {
 					echoMode: button.checked? TextInput.Normal: TextInput.Password
 					placeholderText: qsTr("Password")
 				}
-				/*
-				Text {
-					id: ocko
+				MyButton {
+					id: button
 					property bool checked: false
-					text: "👁"
-					font.pointSize: 20
-					height: passwordFld.height
-					MouseArea {
-						anchors.fill: parent
-
+					iconSource: "../images/eye.svg"
+					color: app.settings.backgroundColor
+					border.width: 0
+					onTapped: {
+						checked = !checked
 					}
 				}
-				*/
-				Button {
-					id: button
-					//height: passwordFld.height
-					text: "👁"
-					font.pointSize: 15
-					flat: true
-					checkable: true
-				}
 			}
-
 		}
 	}
-
 }

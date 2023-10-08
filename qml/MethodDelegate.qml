@@ -1,9 +1,10 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
 Rectangle {
 	id: root
-	height: nodeName.contentHeight + fldResult.contentHeight + 5;
+	height: nodeName.height + fldResult.height + 5;
 
 	color: backgroundColor()
 
@@ -20,37 +21,47 @@ Rectangle {
 
 	}
 
-	Text {
-		id: nodeName
-		x: 8
-		text: root.name? root.name: "method name"
-		anchors.top: parent.top
-		anchors.topMargin: 4
-		font.pointSize: 15
-		font.bold: true
-	}
-	Text {
-		id: fldResult
-		//height: contentHeight
-		anchors.left: parent.left
-		anchors.right: buttonCall.left
-		anchors.top: nodeName.bottom
-		font.pixelSize: nodeName.font.pixelSize
-		wrapMode: Text.WrapAnywhere
-		//fontSizeMode: Text.VerticalFit
-		anchors.leftMargin: 8
-	}
-
-	Button {
-		id: buttonCall
-		text: qsTr("Call")
+	RowLayout {
 		anchors.verticalCenter: parent.verticalCenter
+		anchors.left: parent.left
 		anchors.right: parent.right
-		onClicked: {
-			//let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-			root.requestId = app.callMethod(root.shvPath, root.name)
+		anchors.leftMargin: 6
+		Layout.fillWidth: true
+		Column {
+			id: column
+			Layout.fillWidth: true
+			RowLayout {
+				anchors.left: parent.left
+				anchors.right: parent.right
+				Text {
+					id: nodeName
+					Layout.fillWidth: true
+					text: root.name? root.name: "method name"
+					font.pointSize: app.settings.fontSize
+					font.bold: true
+				}
+				Text {
+					id: fldFlags
+					font.pointSize: app.settings.fontSize
+					text: root.isGetter? "G": ""
+				}
+			}
+			Text {
+				id: fldResult
+				font.pixelSize: nodeName.font.pixelSize
+				font.pointSize: app.settings.fontSize
+			}
+		}
+		Button {
+			id: buttonCall
+			text: qsTr("Call")
+			onClicked: {
+				//let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+				root.requestId = app.callMethod(root.shvPath, root.name)
+			}
 		}
 	}
+
 	Component.onCompleted: {
 		console.log("method", root.shvPath, root.name, root.flags, "G:", root.isGetter)
 		if(root.isGetter) {
@@ -68,16 +79,6 @@ Rectangle {
 				root.color = is_error? "darksalmon": root.backgroundColor()
 			}
 		}
-	}
-
-	Text {
-		id: fldFlags
-		text: root.isGetter? "G": ""
-		anchors.right: buttonCall.left
-		anchors.top: parent.top
-		font.pixelSize: 12
-		anchors.rightMargin: 6
-		anchors.topMargin: 5
 	}
 
 }
