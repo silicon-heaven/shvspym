@@ -26,6 +26,7 @@ Pane {
 			spacing: 5
 			MyButton {
 				id: cancelBt
+				color: "transparent"
 				iconMargin: 10
 				iconSource: "../images/back.svg"
 				width: header.height

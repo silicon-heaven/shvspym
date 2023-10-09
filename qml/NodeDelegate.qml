@@ -34,12 +34,15 @@ Rectangle {
 			app.callLs(shv_path)
 		}
 	}
-	Button {
+	MyButton {
 		id: button
-		text: qsTr("Methods")
 		anchors.verticalCenter: parent.verticalCenter
 		anchors.right: parent.right
-		onClicked: {
+		anchors.rightMargin: 4
+		//iconMargin: 10
+		iconSource: "../images/methods.svg"
+		//color: "transparent"
+		onTapped: {
 			let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
 			app.callDir(shv_path)
 		}

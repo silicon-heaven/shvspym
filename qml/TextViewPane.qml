@@ -3,20 +3,23 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Pane {
-	id: pane
+	id: root
 
 	property string headerText
-	property string text
 	property bool showError: false
+	property bool checkCpon: false
+	property alias text: textEdit.text
+	property alias readOnly: textEdit.readOnly
 
 	signal back()
+	signal textCommited(text: string)
 	padding: 0
 
 	Rectangle {
 		id: header
 
 		height: 50
-		color: pane.showError? "red": app.settings.headerColor
+		color: root.showError? "red": app.settings.headerColor
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: parent.top
@@ -30,29 +33,67 @@ Pane {
 				height: width
 				iconMargin: 15
 				iconSource: "../images/back.svg"
-				color: header.color
-				onTapped: pane.back()
+				color: "transparent"
+				onTapped: root.back()
 			}
 			Text {
 				Layout.fillWidth: true
 				color: app.settings.headerTextColor
-				text: pane.showError? qsTr("Error"): pane.headerText
+				text: root.showError? qsTr("Error"): root.headerText
 				font.bold: true
 			}
-			Button {
-				text: qsTr("Copy")
-				onClicked: {
+			MyButton {
+				width: header.height
+				height: width
+				iconSource: "../images/copy.svg"
+				color: "transparent"
+				onTapped: {
 					textEdit.selectAll()
 					textEdit.copy()
 					textEdit.deselect()
 				}
 			}
+			MyButton {
+				visible: !root.readOnly
+				width: header.height
+				height: width
+				iconSource: "../images/ok.svg"
+				iconMargin: 10
+				color: "transparent"
+				onTapped: {
+					textEdit.focus = false
+					let text = textEdit.text
+					if(root.checkCpon) {
+						let errmsg = app.checkCpon(text)
+						errRect.errorMsg = errmsg
+						if(errmsg) {
+							return;
+						}
+					}
+					root.textCommited(text)
+					root.back()
+				}
+			}
+		}
+	}
+	Rectangle {
+		id: errRect
+		property string errorMsg
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.top: header.bottom
+		anchors.bottom: parent.bottom
+		visible: errorMsg && !textEdit.focus
+		color: "salmon"
+		Text {
+			text: parent.errorMsg
+			anchors.fill: parent
+			verticalAlignment: Text.AlignVCenter
 		}
 	}
 
 	TextEdit {
 		id: textEdit
-		text: pane.text
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: header.bottom
@@ -61,5 +102,15 @@ Pane {
 		wrapMode: Text.WordWrap
 		readOnly: true
 		textFormat: Text.PlainText
+		/*
+		onTextChanged: {
+			// text changed does not contain current line
+			console.log("text changed:", textEdit.text)
+			if(root.checkCpon) {
+				let errmsg = app.checkCpon(text)
+				errRect.errorMsg = errmsg
+			}
+		}
+		*/
 	}
 }

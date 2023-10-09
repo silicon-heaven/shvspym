@@ -56,5 +56,11 @@ Rectangle {
 			}
 		}
 	}
-
+	Rectangle {
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.bottom: parent.bottom
+		height: 2
+		color: "lightgray"
+	}
 }

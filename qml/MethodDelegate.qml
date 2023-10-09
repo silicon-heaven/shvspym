@@ -12,6 +12,7 @@ Rectangle {
 	required property string index
 	required property string name
 	required property string shvPath
+	property var params: null
 	required property int flags
 	property bool isGetter: flags & 2
 
@@ -28,6 +29,7 @@ Rectangle {
 		anchors.right: parent.right
 		anchors.leftMargin: 6
 		Layout.fillWidth: true
+		spacing: 0
 		Column {
 			id: column
 			Layout.fillWidth: true
@@ -49,6 +51,7 @@ Rectangle {
 			}
 			Text {
 				id: fldResult
+				property bool isError: false
 				font.pixelSize: app.settings.fontSize
 			}
 			Component {
@@ -60,17 +63,38 @@ Rectangle {
 			TapHandler {
 				onTapped: {
 					console.log("result:" , fldResult.text)
-					stackView.push(resultPane, {text: fldResult.text, headerText: qsTr("RPC Result")});
+					stackView.push(resultPane, {text: fldResult.text, headerText: qsTr("RPC Result"), showError: fldResult.isError});
 				}
 			}
 		}
-		Button {
-			id: buttonCall
-			text: qsTr("Call")
-			onClicked: {
-				//let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-				root.requestId = app.callMethod(root.shvPath, root.name)
+		MyButton {
+			id: buttonParams
+			width: buttonCall.height
+			height: width
+			color: root.color
+			border.width: 0
+			//iconMargin: 15
+			iconSource: root.params? "../images/params-some.svg": "../images/params.svg"
+			onTapped: {
+				let cpon = app.variantToCpon(root.params);
+				let pane = stackView.push(resultPane, {text: cpon, headerText: qsTr("Method parameters"), checkCpon: true, readOnly: false});
+				pane.textCommited.connect((text) => { root.params = app.cponToVariant(text) })
 			}
+		}
+		MyButton {
+			id: buttonCall
+			color: app.settings.buttonColor
+			width: root.height - 6
+			height: width
+			iconMargin: 10
+			iconSource: "../images/play.svg"
+			onTapped: {
+				//let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+				root.requestId = app.callMethod(root.shvPath, root.name, root.params)
+			}
+		}
+		Rectangle {
+			width: 5
 		}
 	}
 
@@ -87,6 +111,7 @@ Rectangle {
 		function onMethodCallResult(rq_id, result, is_error) {
 			if(rq_id === root.requestId) {
 				console.log(rq_id, JSON.stringify(result), is_error);
+				fldResult.isError = is_error
 				fldResult.text = result;
 				root.color = is_error? "darksalmon": root.backgroundColor()
 			}

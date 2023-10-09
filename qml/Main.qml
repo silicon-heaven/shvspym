@@ -74,7 +74,13 @@ ApplicationWindow {
 				}
 			}
 		}
-
+		Rectangle {
+			anchors.right: parent.right
+			anchors.left: parent.left
+			anchors.bottom: parent.bottom
+			height: 1
+			color: app.settings.delegateColor
+		}
 	}
 	StackView {
 		id: stackView

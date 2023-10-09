@@ -66,9 +66,9 @@ void Application::callDir(const QString &shv_path)
 	);
 }
 
-int Application::callMethod(const QString &shv_path, const QString &method)
+int Application::callMethod(const QString &shv_path, const QString &method, const QVariant &params)
 {
-	return callRpcMethod(shv_path, method, {}, this,
+	return callRpcMethod(shv_path, method, params, this,
 		[this, shv_path](int rq_id, const auto &result) {
 			auto cpon = shv::coreqt::rpc::qVariantToRpcValue(result).toCpon();
 			shvInfo() << cpon;
@@ -79,6 +79,29 @@ int Application::callMethod(const QString &shv_path, const QString &method)
 			emit methodCallResult(rq_id, QString::fromStdString(error.toString()), true);
 		}
 	);
+}
+
+QString Application::variantToCpon(const QVariant &v)
+{
+	if(!v.isValid() || v.isNull())
+		return {};
+	auto rv = shv::coreqt::rpc::qVariantToRpcValue(v);
+	auto cpon = rv.toCpon("  ");
+	return QString::fromStdString(cpon);
+}
+
+QVariant Application::cponToVariant(const QString &cpon)
+{
+	std::string err;
+	auto rv = shv::chainpack::RpcValue::fromCpon(cpon.toStdString(), &err);
+	return shv::coreqt::rpc::rpcValueToQVariant(rv);
+}
+
+QString Application::checkCpon(const QString &cpon)
+{
+	std::string err;
+	shv::chainpack::RpcValue::fromCpon(cpon.toStdString(), &err);
+	return QString::fromStdString(err);
 }
 
 QString Application::appVersion() const

@@ -20,6 +20,7 @@ add_subdirectory(3rdparty/libshv)
 
 qt_add_executable(shvspym
 	shvspym.qrc
+	src/version.h
 	src/main.cpp
 	src/settings.cpp
 	src/application.cpp
@@ -53,6 +54,11 @@ qt_add_qml_module(shvspym
 		images/plus.svg
 		images/eye.svg
 		images/menu.svg
+		images/copy.svg
+		images/play.svg
+		images/params.svg
+		images/params-some.svg
+		images/methods.svg
 
 )
 

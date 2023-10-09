@@ -14,8 +14,8 @@ Pane {
 	Rectangle {
 		id: header
 
-		height: 54
-		color: "#278f00"
+		height: cancelBt.height
+		color: app.settings.headerColor
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: parent.top
@@ -25,9 +25,10 @@ Pane {
 			spacing: 5
 			MyButton {
 				id: cancelBt
+				color: "transparent"
 				width: header.height
 				height: width
-				iconMargin: 15
+				iconMargin: 10
 				iconSource: "../images/back.svg"
 				onTapped: pane.back()
 			}

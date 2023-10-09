@@ -1,4 +1,5 @@
 #include "application.h"
+#include "version.h"
 
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -9,7 +10,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setOrganizationName("Elektroline");
 	QCoreApplication::setOrganizationDomain("elektroline.cz");
 	QCoreApplication::setApplicationName("shvspym");
-	QCoreApplication::setApplicationVersion("0.0.2");
+	QCoreApplication::setApplicationVersion(APP_VERSION);
 
 	Application app(argc, argv);
 	//app.setWindowIcon(QIcon(":/images/shvspy.svg"));

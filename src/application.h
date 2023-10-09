@@ -26,7 +26,11 @@ public:
 	Q_INVOKABLE void connectToBroker(int connection_id);
 	Q_INVOKABLE void callLs(const QString &shv_path);
 	Q_INVOKABLE void callDir(const QString &shv_path);
-	Q_INVOKABLE int callMethod(const QString &shv_path, const QString &method);
+	Q_INVOKABLE int callMethod(const QString &shv_path, const QString &method, const QVariant &params);
+
+	Q_INVOKABLE QString variantToCpon(const QVariant &v);
+	Q_INVOKABLE QVariant cponToVariant(const QString &cpon);
+	Q_INVOKABLE QString checkCpon(const QString &cpon);
 
 	Q_SIGNAL void brokerConnectedChanged(bool is_connected);
 	Q_SIGNAL void connetToBrokerError(const QString &errmsg);
