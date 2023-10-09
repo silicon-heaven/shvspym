@@ -81,6 +81,11 @@ int Application::callMethod(const QString &shv_path, const QString &method)
 	);
 }
 
+QString Application::appVersion() const
+{
+	return QCoreApplication::applicationVersion();
+}
+
 int Application::callRpcMethod(const QString &shv_path, const QString &method, const QVariant &params, const QObject *context
 							 , std::function<void (int rq_id, const QVariant &)> success_callback
 							 , std::function<void (int rq_id, const shv::chainpack::RpcError &)> error_callback)

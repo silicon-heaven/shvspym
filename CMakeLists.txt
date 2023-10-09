@@ -41,8 +41,10 @@ qt_add_qml_module(shvspym
 		qml/MethodsPane.qml
 		qml/MethodDelegate.qml
 		qml/TextViewPane.qml
+		qml/AboutDialog.qml
 
 	RESOURCES
+		images/shvspy.svg
 		images/pencil.svg
 		images/back.svg
 		images/ok.svg
@@ -50,8 +52,7 @@ qt_add_qml_module(shvspym
 		images/connect.svg
 		images/plus.svg
 		images/eye.svg
-
-
+		images/menu.svg
 
 )
 

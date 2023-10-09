@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>images/shvspy.svg</file>
+        <file>qml/DlgAbout.qml</file>
     </qresource>
 </RCC>

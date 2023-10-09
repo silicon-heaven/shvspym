@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	QCoreApplication::setOrganizationName("Elektroline");
 	QCoreApplication::setOrganizationDomain("elektroline.cz");
 	QCoreApplication::setApplicationName("shvspym");
-	QCoreApplication::setApplicationVersion("0.0.1");
+	QCoreApplication::setApplicationVersion("0.0.2");
 
 	Application app(argc, argv);
 	//app.setWindowIcon(QIcon(":/images/shvspy.svg"));

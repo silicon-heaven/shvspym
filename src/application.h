@@ -16,6 +16,7 @@ class Application : public QGuiApplication
 	Q_OBJECT
 	using Super = QGuiApplication;
 
+	Q_PROPERTY(QString appVersion READ appVersion CONSTANT)
 	Q_PROPERTY(QObject* brokerListModel READ brokerListModelObject CONSTANT)
 	Q_PROPERTY(QObject* settings READ settings CONSTANT)
 
@@ -38,6 +39,7 @@ public:
 	const shv::core::utils::Crypt& crypt() {return m_crypt;}
 
 private:
+	QString appVersion() const;
 	QObject* brokerListModelObject() { return m_brokerListModel; }
 	QObject* settings() { return m_settings; }
 

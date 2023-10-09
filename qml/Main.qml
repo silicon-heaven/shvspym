@@ -38,13 +38,48 @@ ApplicationWindow {
 		id: settings
 		property string style
 	}
+
+	header: ToolBar {
+		Rectangle {
+			color: app.settings.headerColor
+			anchors.fill: parent
+			RowLayout {
+				anchors.fill: parent
+				spacing: 20
+
+				//Image {
+				//	Layout.leftMargin: 6
+				//	source: "images/shvspy.svg"
+				//}
+
+				Label {
+					Layout.fillWidth: true
+
+					text: qsTr("ShvSpy")
+					horizontalAlignment: Qt.AlignHCenter
+					verticalAlignment: Qt.AlignVCenter
+					font.pixelSize: app.settings.fontSize + 4
+					font.bold: true
+				}
+
+				ToolButton {
+					id: settingsButton
+					icon.source: "../images/menu.svg"
+					onClicked: {
+						aboutDialog.open()
+					}
+
+					//palette.button: Constants.isDarkModeActive ? "#30D158" : "#34C759"
+					//palette.highlight: Constants.isDarkModeActive ? "#30DB5B" : "#248A3D"
+				}
+			}
+		}
+
+	}
 	StackView {
 		id: stackView
 
-		//property var rootItem: null
-
 		anchors.fill: parent
-		//anchors.leftMargin: !window.portraitMode ? drawer.width : undefined
 
 		initialItem: BrokersPane {
 			id: brokersPane
@@ -119,5 +154,8 @@ ApplicationWindow {
 				let pane = stackView.push(methodsPane, {shvPath: shv_path, methods: methods, stackView: stackView})
 			}
 		}
+	}
+	AboutDialog {
+		id: aboutDialog
 	}
 }
