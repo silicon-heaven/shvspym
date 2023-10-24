@@ -4,7 +4,7 @@ import QtQuick.Layouts
 Rectangle {
 	id: root
 	height: 50
-	color: app.settings.delegateColor
+	//color: app.settings.delegateAltColor
 
 	signal connectToBrokerRequest(connection_id: int)
 	signal editBrokerRequest(connection_id: int)
@@ -49,7 +49,7 @@ Rectangle {
 			id: editButton
 			width: height
 			border.width: 0
-			color: app.settings.delegateColor
+			color: "white"
 			iconSource: "../images/pencil.svg"
 			onTapped: {
 				root.editBrokerRequest(root.connectionId)

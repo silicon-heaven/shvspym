@@ -19,7 +19,7 @@ Rectangle {
 	property int requestId: 0
 
 	function backgroundColor() {
-		return root.index % 2? app.settings.delegateAltColor: app.settings.delegateColor
+		return root.index % 2? app.settings.delegateColor2: app.settings.delegateAltColor2
 
 	}
 
@@ -102,7 +102,7 @@ Rectangle {
 		console.log("method", root.shvPath, root.name, root.flags, "G:", root.isGetter)
 		if(root.isGetter) {
 			// auto call getter
-			root.requestId = app.callMethod(root.shvPath, root.name)
+			root.requestId = app.callMethod(root.shvPath, root.name, null)
 		}
 	}
 

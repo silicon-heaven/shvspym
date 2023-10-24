@@ -3,8 +3,8 @@ import QtQuick.Controls
 
 Rectangle {
 	id: root
-	height: button.height
-	color: index % 2? app.settings.delegateAltColor: app.settings.delegateColor
+	height: app.settings.fontSize * 3
+	color: index % 2? app.settings.delegateColor: app.settings.delegateAltColor
 	//radius: 5
 	//border.color: "#69ac77"
 	border.width: 0
@@ -34,17 +34,17 @@ Rectangle {
 			app.callLs(shv_path)
 		}
 	}
-	MyButton {
-		id: button
-		anchors.verticalCenter: parent.verticalCenter
-		anchors.right: parent.right
-		anchors.rightMargin: 4
-		//iconMargin: 10
-		iconSource: "../images/methods.svg"
-		//color: "transparent"
-		onTapped: {
-			let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-			app.callDir(shv_path)
-		}
-	}
+	//MyButton {
+	//	id: button
+	//	anchors.verticalCenter: parent.verticalCenter
+	//	anchors.right: parent.right
+	//	anchors.rightMargin: 4
+	//	//iconMargin: 10
+	//	iconSource: "../images/methods.svg"
+	//	//color: "transparent"
+	//	onTapped: {
+	//		let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+	//		app.callDir(shv_path)
+	//	}
+	//}
 }

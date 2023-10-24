@@ -101,20 +101,14 @@ ApplicationWindow {
 			}
 		}
 		Component {
-			id: nodesPane
-			NodesPane {
+			id: shvPane
+			ShvPane {
 				onBack: stackView.pop()
 				onGotoRoot: {
 					while(stackView.depth > 2) {
 						stackView.pop()
 					}
 				}
-			}
-		}
-		Component {
-			id: methodsPane
-			MethodsPane {
-				onBack: stackView.pop()
 			}
 		}
 		Connections {
@@ -154,11 +148,11 @@ ApplicationWindow {
 				stackView.push(errorPane, {text: errmsg})
 			}
 			function onNodesLoaded(shv_path, nodelist) {
-				let pane = stackView.push(nodesPane, {shvPath: shv_path, nodes: nodelist})
+				let pane = stackView.push(shvPane, {shvPath: shv_path, nodes: nodelist})
 			}
-			function onMethodsLoaded(shv_path, methods) {
-				let pane = stackView.push(methodsPane, {shvPath: shv_path, methods: methods, stackView: stackView})
-			}
+			//function onMethodsLoaded(shv_path, methods) {
+			//	let pane = stackView.push(methodsPane, {shvPath: shv_path, methods: methods, stackView: stackView})
+			//}
 		}
 	}
 	AboutDialog {

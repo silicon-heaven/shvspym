@@ -17,6 +17,8 @@ class Settings : public QObject
 	Q_PROPERTY(QColor buttonBorderColor READ buttonBorderColor CONSTANT)
 	Q_PROPERTY(QColor delegateColor READ delegateColor CONSTANT)
 	Q_PROPERTY(QColor delegateAltColor READ delegateAltColor CONSTANT)
+	Q_PROPERTY(QColor delegateColor2 READ delegateColor2 CONSTANT)
+	Q_PROPERTY(QColor delegateAltColor2 READ delegateAltColor2 CONSTANT)
 public:
 	explicit Settings(QObject *parent = nullptr);
 
@@ -29,8 +31,10 @@ private:
 	QColor buttonBorderColor() { return m_buttonBorderColor; }
 	QColor delegateColor() { return m_delegateColor; }
 	QColor delegateAltColor() { return m_delegateAltColor; }
+	QColor delegateColor2() { return m_delegateColor2; }
+	QColor delegateAltColor2() { return m_delegateAltColor2; }
 
-	void setThemeColor(const QColor &c);
+	void setThemeColor(const QColor &c1, const QColor &c2);
 
 private:
 	int m_fontSize = 16;
@@ -41,6 +45,8 @@ private:
 	QColor m_buttonBorderColor;
 	QColor m_delegateColor;
 	QColor m_delegateAltColor;
+	QColor m_delegateColor2;
+	QColor m_delegateAltColor2;
 
 };
 
