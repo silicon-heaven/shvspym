@@ -47,10 +47,12 @@ ApplicationWindow {
 				anchors.fill: parent
 				spacing: 20
 
-				//Image {
-				//	Layout.leftMargin: 6
-				//	source: "images/shvspy.svg"
-				//}
+				BusyIndicator {
+					id: busyIndicator
+					running: false
+					height: settingsButton.height
+					width: height
+				}
 
 				Label {
 					Layout.fillWidth: true
@@ -125,8 +127,6 @@ ApplicationWindow {
 			function onConnectToBroker(connection_id) {
 				console.log("connect to broker connection_id", connection_id)
 				app.connectToBroker(connection_id)
-				//let pane = stackView.push(brokerProperties)
-				//pane.loadParams(app.brokerListModel.brokerProperties(connection_id))
 			}
 		}
 		Component {
@@ -150,12 +150,12 @@ ApplicationWindow {
 			function onNodesLoaded(shv_path, nodelist) {
 				let pane = stackView.push(shvPane, {shvPath: shv_path, nodes: nodelist})
 			}
-			//function onMethodsLoaded(shv_path, methods) {
-			//	let pane = stackView.push(methodsPane, {shvPath: shv_path, methods: methods, stackView: stackView})
-			//}
 		}
 	}
 	AboutDialog {
 		id: aboutDialog
+	}
+	Component.onCompleted: {
+		app.methodCallInProcess.connect((rq_id, is_running) => busyIndicator.running = is_running)
 	}
 }

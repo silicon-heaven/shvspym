@@ -36,6 +36,10 @@ void Application::callLs(const QString &shv_path)
 		[this, shv_path](int rq_id, const auto &result) {
 			//shvInfo() << result.toStringList().join(',');
 			emit nodesLoaded(shv_path, result.toStringList());
+		},
+		[this, shv_path](int rq_id, const auto &error) {
+			// ls() might not be defined for node, show methods anyway
+			emit nodesLoaded(shv_path, QStringList());
 		}
 	);
 }
@@ -117,10 +121,14 @@ int Application::callRpcMethod(const QString &shv_path, const QString &method, c
 		shvWarning() << shv_path << method << "Context object is NULL";
 	auto *rpcc = shv::iotqt::rpc::RpcCall::create(m_rpcConnection);
 	auto rq_id = m_rpcConnection->nextRequestId();
+	emit methodCallInProcess(rq_id, true);
 	rpcc->setShvPath(shv_path)
 			->setMethod(method)
 			->setParams(shv::coreqt::rpc::qVariantToRpcValue(params))
 			->setRequestId(rq_id);
+	connect(rpcc, &shv::iotqt::rpc::RpcCall::maybeResult, this, [rq_id, this]() {
+		emit methodCallInProcess(rq_id, false);
+	});
 	if (rpcc) {
 		if(success_callback) {
 			connect(rpcc, &shv::iotqt::rpc::RpcCall::result, context, [success_callback, rq_id](const ::shv::chainpack::RpcValue &result) {
