@@ -40,6 +40,8 @@ ApplicationWindow {
 	}
 
 	header: ToolBar {
+		id: header
+		height: 50
 		Rectangle {
 			color: app.settings.headerColor
 			anchors.fill: parent
@@ -50,7 +52,7 @@ ApplicationWindow {
 				BusyIndicator {
 					id: busyIndicator
 					running: false
-					height: settingsButton.height
+					height: header.height
 					width: height
 				}
 
@@ -60,7 +62,7 @@ ApplicationWindow {
 					text: qsTr("ShvSpy")
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
-					font.pixelSize: app.settings.fontSize + 4
+					font.pixelSize: app.settings.fontSize
 					font.bold: true
 				}
 
@@ -70,18 +72,12 @@ ApplicationWindow {
 					onClicked: {
 						aboutDialog.open()
 					}
+					//height: app.settings.lineHeight
 
 					//palette.button: Constants.isDarkModeActive ? "#30D158" : "#34C759"
 					//palette.highlight: Constants.isDarkModeActive ? "#30DB5B" : "#248A3D"
 				}
 			}
-		}
-		Rectangle {
-			anchors.right: parent.right
-			anchors.left: parent.left
-			anchors.bottom: parent.bottom
-			height: 1
-			color: app.settings.delegateColor
 		}
 	}
 	StackView {
@@ -103,13 +99,10 @@ ApplicationWindow {
 			}
 		}
 		Component {
-			id: shvPane
-			ShvPane {
-				onBack: stackView.pop()
-				onGotoRoot: {
-					while(stackView.depth > 2) {
-						stackView.pop()
-					}
+			id: sessionPage
+			SessionPage {
+				onBack: {
+					stackView.pop()
 				}
 			}
 		}
@@ -141,21 +134,38 @@ ApplicationWindow {
 			function onBrokerConnectedChanged(is_connected) {
 				console.log("broker connected changed:", is_connected)
 				if(is_connected) {
-					app.callLs("");
+					stackView.push(sessionPage)
 				}
 			}
 			function onConnetToBrokerError(errmsg) {
 				stackView.push(errorPane, {text: errmsg})
 			}
-			function onNodesLoaded(shv_path, nodelist) {
-				let pane = stackView.push(shvPane, {shvPath: shv_path, nodes: nodelist})
-			}
 		}
 	}
+	/*
+	Rectangle {
+		id: busyRect
+		visible: false
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.top: parent.top
+		height: 100
+		BusyIndicator {
+			id: busyIndicator2
+			anchors.centerIn: parent
+			running: busyRect.visible
+			height: busyRect.height
+			width: height
+		}
+	}
+	*/
 	AboutDialog {
 		id: aboutDialog
 	}
 	Component.onCompleted: {
-		app.methodCallInProcess.connect((rq_id, is_running) => busyIndicator.running = is_running)
+		app.methodCallInProcess.connect((is_running) => {
+											busyIndicator.running = is_running
+											//busyRect.visible = is_running
+		})
 	}
 }

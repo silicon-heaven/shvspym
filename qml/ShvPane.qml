@@ -9,7 +9,7 @@ Pane {
 	required property var nodes
 
 	signal back()
-	signal gotoRoot()
+	signal goBack(levels: int)
 	padding: 0
 
 	Rectangle {
@@ -21,34 +21,53 @@ Pane {
 		height: cancelBt.height
 		color: app.settings.headerColor
 
-		Row {
+		MyButton {
+			id: cancelBt
+			color: "transparent"
 			anchors.left: parent.left
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			iconMargin: 10
+			iconSource: "../images/back.svg"
+			width: header.height
+			onTapped: root.back()
+		}
+		Rectangle {
+			anchors.left: cancelBt.right
 			anchors.right: parent.right
-			spacing: 5
-			MyButton {
-				id: cancelBt
-				color: "transparent"
-				iconMargin: 10
-				iconSource: "../images/back.svg"
-				width: header.height
-				onTapped: root.back()
-			}
-			MyButton {
-				id: rootBt
-				color: cancelBt.color
-				border.color: cancelBt.border.color
-				iconMargin: 10
-				iconSource: "../images/goto-root.svg"
-				width: header.height
-				onTapped: root.gotoRoot()
-			}
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			color: header.color
 			Text {
 				color: app.settings.headerTextColor
-				text: root.shvPath? root.shvPath: "shv path"
+				text: root.shvPath
+				elide: Text.ElideLeft
+				anchors.left: parent.left
 				anchors.verticalCenter: parent.verticalCenter
-				horizontalAlignment: Text.AlignHCenter
 				style: Text.Normal
 				font.bold: true
+			}
+			ComboBox {
+				anchors.fill: parent
+				id: combo
+				visible: false
+				onActivated: (index) => {
+					//console.log("activated:", index)
+					combo.visible = false
+					//let new_path = splitPath().slice(index).reverse().join('/')
+					//console.log("new_path:", new_path)
+					root.goBack(index)
+				}
+			}
+			TapHandler {
+				onTapped: {
+					let paths = root.shvPath.split('/').reverse()
+					if(paths.length > 1) {
+						combo.model = paths
+						combo.visible = true
+						combo.popup.open()
+					}
+				}
 			}
 		}
 	}
@@ -97,11 +116,16 @@ Pane {
 		}
 	}
 	Component.onCompleted: {
+		//console.log("Create:", root.shvPath, root)
 		app.methodsLoaded.connect((shv_path, meths) => {
-			if(shv_path === root.shvPath) {
+			if(/*root && */shv_path === root.shvPath) {
 				methods.setMethods(meths);
 			}
 		})
 		app.callDir(root.shvPath)
 	}
+
+	//Component.onDestruction: {
+	//	console.log("Destroy:", root.shvPath, root)
+	//}
 }

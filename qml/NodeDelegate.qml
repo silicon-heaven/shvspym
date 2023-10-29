@@ -22,29 +22,40 @@ Rectangle {
 		anchors.left: parent.left
 		anchors.right: parent.right
 		font.pointSize: 15
-		font.bold: true
 		anchors.leftMargin: 5
-	}
-
-	MouseArea {
-		id: mouseArea
-		anchors.fill: parent
-		onClicked: {
-			let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-			app.callLs(shv_path)
+		TapHandler {
+			onTapped: {
+				let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+				app.callLs(shv_path)
+			}
+			onLongPressed: {
+				contextMenu.popup()
+			}
 		}
 	}
-	//MyButton {
-	//	id: button
-	//	anchors.verticalCenter: parent.verticalCenter
-	//	anchors.right: parent.right
-	//	anchors.rightMargin: 4
-	//	//iconMargin: 10
-	//	iconSource: "../images/methods.svg"
-	//	//color: "transparent"
-	//	onTapped: {
-	//		let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-	//		app.callDir(shv_path)
-	//	}
-	//}
+	/*
+	Menu {
+		id: contextMenu
+		MenuItem {
+			text: "Subscribe"
+			onTriggered: {
+				let path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+				app.subscribeSignal(path)
+			}
+		}
+	}
+	*/
+	MyButton {
+		id: button
+		anchors.verticalCenter: parent.verticalCenter
+		anchors.right: parent.right
+		//iconMargin: 10
+		border.width: 0
+		iconSource: "../images/subscription.svg"
+		color: "transparent"
+		onTapped: {
+			let path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+			app.subscribeSignal(path, "chng", true)
+		}
+	}
 }

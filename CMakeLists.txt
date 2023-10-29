@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.16)
 
 project(shvspym VERSION 0.1 LANGUAGES CXX)
 
-set(VERSION_NAME "1.0.1" CACHE STRING "App version name")
-set(VERSION_CODE 10001 CACHE INT "App version code")
+#set(VERSION_NAME "1.0.1" CACHE STRING "App version name")
+#set(VERSION_CODE 10001 CACHE INT "App version code")
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -41,6 +41,9 @@ qt_add_qml_module(shvspym
 		qml/BrokerProperties.qml
 		qml/BrokersPane.qml
 		qml/ShvPane.qml
+		qml/SessionPage.qml
+		qml/DeliveredSignalDelegate.qml
+		qml/SubscriptionDelegate.qml
 		qml/NodesRect.qml
 		qml/NodeDelegate.qml
 		qml/MethodsRect.qml
@@ -63,6 +66,8 @@ qt_add_qml_module(shvspym
 		images/params.svg
 		images/params-some.svg
 		images/methods.svg
+		images/nodes.svg
+		images/subscription.svg
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

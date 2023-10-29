@@ -13,7 +13,7 @@ Rectangle {
 		let n = 0
 		for(let method of methods) {
 			method.shvPath = root.shvPath;
-			console.log("method description:", JSON.stringify(method));
+			//console.log("method description:", JSON.stringify(method));
 			listModel.append(method);
 			n++
 		}

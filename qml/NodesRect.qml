@@ -27,7 +27,6 @@ Rectangle {
 	Component.onCompleted: {
 		let n = 0
 		for(let nd of root.nodes) {
-			console.log(nd);
 			listModel.append({nodeName: nd, shvPath: root.shvPath});
 			n++
 		}

@@ -9,6 +9,7 @@ class Settings : public QObject
 	Q_OBJECT
 
 	//Q_PROPERTY(bool isDarkModeActive READ isDarkModeActive NOTIFY isDarkModeActiveChanged)
+	Q_PROPERTY(int lineHeight READ lineHeight CONSTANT)
 	Q_PROPERTY(int fontSize READ fontSize CONSTANT)
 	Q_PROPERTY(QColor backgroundColor READ backgroundColor CONSTANT)
 	Q_PROPERTY(QColor headerColor READ headerColor CONSTANT)
@@ -23,6 +24,7 @@ public:
 	explicit Settings(QObject *parent = nullptr);
 
 private:
+	int lineHeight() { return fontSize() * 150 / 100; }
 	int fontSize() { return m_fontSize; }
 	QColor backgroundColor() { return m_backgroundColor; }
 	QColor headerColor() { return m_headerColor; }

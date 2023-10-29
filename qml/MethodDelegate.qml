@@ -99,7 +99,7 @@ Rectangle {
 	}
 
 	Component.onCompleted: {
-		console.log("method", root.shvPath, root.name, root.flags, "G:", root.isGetter)
+		//console.log("method", root.shvPath, root.name, root.flags, "G:", root.isGetter)
 		if(root.isGetter) {
 			// auto call getter
 			root.requestId = app.callMethod(root.shvPath, root.name, null)

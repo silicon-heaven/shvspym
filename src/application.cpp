@@ -4,8 +4,11 @@
 
 #include <shv/iotqt/rpc/rpcresponsecallback.h>
 #include <shv/coreqt/log.h>
+#include <shv/chainpack/datachange.h>
 
 #include <QDebug>
+
+using namespace shv::chainpack;
 
 Application::Application(int &argc, char **argv)
 	: Super(argc, argv)
@@ -14,15 +17,37 @@ Application::Application(int &argc, char **argv)
 	, m_rpcConnection(new RpcConnection(this))
 	, m_settings(new Settings(this))
 {
-	connect(m_rpcConnection, &RpcConnection::brokerConnectedChanged, this, &Application::brokerConnectedChanged);
+	connect(m_rpcConnection, &RpcConnection::brokerConnectedChanged, this, [this](bool is_connected) {
+		emit brokerConnectedChanged(is_connected);
+		emit methodCallInProcess(false);
+	});
 	connect(m_rpcConnection, &RpcConnection::brokerLoginError, this, [this](const shv::chainpack::RpcError &err) {
 		qWarning() << "connect to broker error:" << err.toString();
 		emit connetToBrokerError(QString::fromStdString(err.toString()));
+		emit methodCallInProcess(false);
+	});
+	connect(m_rpcConnection, &RpcConnection::rpcMessageReceived, this, [this](const shv::chainpack::RpcMessage &msg) {
+		if(msg.isSignal()) {
+			RpcSignal sig(msg);
+			auto shv_path = QString::fromStdString(msg.shvPath().asString());
+			auto method = QString::fromStdString(msg.method().asString());
+			//auto value = shv::coreqt::rpc::rpcValueToQVariant(sig.params());
+			auto val = sig.params();
+			//auto qdt = shv::coreqt::rpc::rpcValueToQVariant(val.metaValue(DataChange::MetaType::Tag::DateTime)).toDateTime();
+			//if(!qdt.isValid())
+			//	qdt = QDateTime::currentDateTime();
+			auto qdt = QDateTime::currentDateTime();
+			val.setMetaData({});
+			auto qval = shv::coreqt::rpc::rpcValueToQVariant(val);
+			auto cpon = QString::fromStdString(sig.params().toCpon());
+			emit signalArrived(shv_path, method, qdt, qval);
+		}
 	});
 }
 
 void Application::connectToBroker(int connection_id)
 {
+	emit methodCallInProcess(true);
 	m_rpcConnection->close();
 	auto props = m_brokerListModel->brokerPropertiesStruct(connection_id);
 	m_rpcConnection->setConnectionString(props.connectionString());
@@ -79,8 +104,27 @@ int Application::callMethod(const QString &shv_path, const QString &method, cons
 			emit methodCallResult(rq_id, QString::fromStdString(cpon), false);
 		},
 		[this, shv_path](int rq_id, const auto &error) {
-			shvError() << error.toString();
+			qDebug() << error.toString();
 			emit methodCallResult(rq_id, QString::fromStdString(error.toString()), true);
+		}
+	);
+}
+
+int Application::subscribeSignal(const QString &shv_path, const QString &method, bool subscribe)
+{
+	qDebug() << "subscribe:" << shv_path << method << "subscribe:" << subscribe;
+	auto meth = method.isEmpty()? Rpc::SIG_VAL_CHANGED: method;
+	auto sub_meth = subscribe? Rpc::METH_SUBSCRIBE: Rpc::METH_UNSUBSCRIBE;
+	auto params = shv::coreqt::rpc::rpcValueToQVariant(RpcValue::Map{
+														   {Rpc::PAR_PATH, shv_path.toStdString()},
+														   {Rpc::PAR_METHOD, meth.toStdString()},
+													   });
+	return callRpcMethod(Rpc::DIR_BROKER_APP, sub_meth, params, this,
+		[this, shv_path, meth, subscribe](int rq_id, const auto &result) {
+			emit signalSubscribedChanged(shv_path, meth, subscribe);
+		},
+		[this, shv_path](int rq_id, const auto &error) {
+			qDebug() << error.toString();
 		}
 	);
 }
@@ -121,13 +165,13 @@ int Application::callRpcMethod(const QString &shv_path, const QString &method, c
 		shvWarning() << shv_path << method << "Context object is NULL";
 	auto *rpcc = shv::iotqt::rpc::RpcCall::create(m_rpcConnection);
 	auto rq_id = m_rpcConnection->nextRequestId();
-	emit methodCallInProcess(rq_id, true);
+	emit methodCallInProcess(true);
 	rpcc->setShvPath(shv_path)
 			->setMethod(method)
 			->setParams(shv::coreqt::rpc::qVariantToRpcValue(params))
 			->setRequestId(rq_id);
 	connect(rpcc, &shv::iotqt::rpc::RpcCall::maybeResult, this, [rq_id, this]() {
-		emit methodCallInProcess(rq_id, false);
+		emit methodCallInProcess(false);
 	});
 	if (rpcc) {
 		if(success_callback) {

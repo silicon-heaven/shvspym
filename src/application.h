@@ -28,6 +28,8 @@ public:
 	Q_INVOKABLE void callDir(const QString &shv_path);
 	Q_INVOKABLE int callMethod(const QString &shv_path, const QString &method, const QVariant &params);
 
+	Q_INVOKABLE int subscribeSignal(const QString &shv_path, const QString &method, bool subscribe);
+
 	Q_INVOKABLE QString variantToCpon(const QVariant &v);
 	Q_INVOKABLE QVariant cponToVariant(const QString &cpon);
 	Q_INVOKABLE QString checkCpon(const QString &cpon);
@@ -37,7 +39,9 @@ public:
 	Q_SIGNAL void nodesLoaded(const QString &shv_path,  const QStringList &nodes);
 	Q_SIGNAL void methodsLoaded(const QString &shv_path,  const QVariantList &methods);
 	Q_SIGNAL void methodCallResult(int request_id, const QString &result, bool is_error);
-	Q_SIGNAL void methodCallInProcess(int request_id, bool is_running);
+	Q_SIGNAL void methodCallInProcess(bool is_running);
+	Q_SIGNAL void signalSubscribedChanged(const QString &shv_path, const QString &method, bool is_subscribed);
+	Q_SIGNAL void signalArrived(const QString &shv_path, const QString &method, const QDateTime &timestamp, const QVariant &value);
 
 	static Application* instance() {return qobject_cast<Application*>(Super::instance());}
 
