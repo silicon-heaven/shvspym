@@ -13,6 +13,12 @@ Rectangle {
 	required property string nodeName
 	required property string shvPath
 	required property int index
+	Keys.onReleased: {
+		if(event.key === Qt.Key_Back || kevent.key === Qt.Key_Escape) {
+			console.log("BACK4")
+			nodesStack.pop()
+		}
+	}
 
 	Text {
 		id: nodeName
@@ -42,6 +48,10 @@ Rectangle {
 			id: image
 			anchors.fill: parent
 			source: lightning.isActive? "../images/subscription-active.svg": "../images/subscription.svg"
+			anchors.bottomMargin: 5
+			anchors.topMargin: 5
+			anchors.leftMargin: 5
+			anchors.rightMargin: 5
 			fillMode: Image.PreserveAspectFit
 			Component.onCompleted: {
 				app.subscriptionModel.signalSubscribedChanged.connect((shv_path, method, is_subscribed) => {

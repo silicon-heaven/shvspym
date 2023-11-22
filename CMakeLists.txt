@@ -8,9 +8,9 @@ project(shvspym VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Network SerialPort WebSockets)
+find_package(Qt6 6.6 REQUIRED COMPONENTS Quick Network SerialPort WebSockets)
 
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup(REQUIRES 6.6)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_WIN32_EXECUTABLE ON) # Don't open a console window for Windows apps on Release mode.
@@ -70,6 +70,7 @@ qt_add_qml_module(shvspym
 		images/nodes.svg
 		images/subscription.svg
 		images/subscription-active.svg
+
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
