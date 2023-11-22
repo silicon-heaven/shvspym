@@ -73,7 +73,7 @@ Rectangle {
 			height: width
 			color: root.color
 			border.width: 0
-			//iconMargin: 15
+			//iconMargin: 5
 			iconSource: root.params? "../images/params-some.svg": "../images/params.svg"
 			onTapped: {
 				let cpon = app.variantToCpon(root.params);

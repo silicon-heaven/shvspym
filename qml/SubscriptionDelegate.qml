@@ -6,7 +6,7 @@ RowLayout {
 	id: root
 	required property string shvPath
 	required property string method
-	required property bool subscribed
+	required property bool isActive
 	//height: 50
 	width: 500
 	Text {
@@ -17,9 +17,9 @@ RowLayout {
 	Switch {
 		id: switchDelegate
 		//text: qsTr("Switch Delegate")
-		checked: root.subscribed
+		checked: root.isActive
 		onToggled: {
-			app.subscribeSignal(root.shvPath, root.method, checked)
+			app.subscriptionModel.subscribeSignal(root.shvPath, root.method, checked)
 		}
 	}
 }

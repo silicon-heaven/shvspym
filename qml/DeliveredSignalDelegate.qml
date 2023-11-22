@@ -7,7 +7,7 @@ Column {
 	required property date timestamp
 	required property var value
 	Text {
-		text: root.shvPath + ":" + root.method + "()"
+		text: root.shvPath + ":" + root.method
 		elide: Text.ElideLeft
 		font.bold: true
 		width: parent.width

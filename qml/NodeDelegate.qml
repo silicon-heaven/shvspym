@@ -20,7 +20,7 @@ Rectangle {
 		elide: Text.ElideLeft
 		anchors.verticalCenter: parent.verticalCenter
 		anchors.left: parent.left
-		anchors.right: parent.right
+		anchors.right: lightning.left
 		font.pointSize: 15
 		anchors.leftMargin: 5
 		TapHandler {
@@ -28,34 +28,35 @@ Rectangle {
 				let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
 				app.callLs(shv_path)
 			}
-			onLongPressed: {
-				contextMenu.popup()
-			}
 		}
 	}
-	/*
-	Menu {
-		id: contextMenu
-		MenuItem {
-			text: "Subscribe"
-			onTriggered: {
-				let path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-				app.subscribeSignal(path)
-			}
-		}
-	}
-	*/
-	MyButton {
-		id: button
-		anchors.verticalCenter: parent.verticalCenter
+	Rectangle {
+		id: lightning
+		width: root.height
+		height: root.height
 		anchors.right: parent.right
-		//iconMargin: 10
-		border.width: 0
-		iconSource: "../images/subscription.svg"
-		color: "transparent"
-		onTapped: {
-			let path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-			app.subscribeSignal(path, "chng", true)
+
+		property bool isActive: false
+
+		Image {
+			id: image
+			anchors.fill: parent
+			source: lightning.isActive? "../images/subscription-active.svg": "../images/subscription.svg"
+			fillMode: Image.PreserveAspectFit
+			Component.onCompleted: {
+				app.subscriptionModel.signalSubscribedChanged.connect((shv_path, method, is_subscribed) => {
+							  let path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+							  if(shv_path === path) {
+								  lightning.isActive = is_subscribed
+							  }
+						  })
+			}
+		}
+		TapHandler {
+			onTapped: {
+				let path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+				app.subscriptionModel.subscribeSignal(path, "chng", !lightning.isActive)
+			}
 		}
 	}
 }

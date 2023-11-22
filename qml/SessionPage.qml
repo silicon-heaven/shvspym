@@ -57,26 +57,9 @@ Page {
 				currentIndex: subscriptionsTabBar.currentIndex
 				ListView {
 					id: subscribedList
-					model: ListModel {
-						id: subscribedListModel
-					}
+					model: app.subscriptionModel
 					delegate: SubscriptionDelegate {
 						width: subscribedList.width
-					}
-					Component.onCompleted: {
-						app.signalSubscribedChanged.connect(
-									(shv_path, method, is_subscribed) => {
-										console.log("signal:", shv_path + ':' + method, "subscribed:", is_subscribed)
-										for(let i = 0; i < subscribedListModel.count; i++) {
-											let shvp = subscribedListModel.get(i).shvPath;
-											if(shvp === shv_path) {
-												subscribedListModel.setProperty(i, "subscribed", is_subscribed)
-												return
-											}
-										}
-										subscribedListModel.append({"shvPath": shv_path, "method": method, "subscribed": is_subscribed})
-									}
-									)
 					}
 				}
 				ListView {
@@ -100,12 +83,20 @@ Page {
 			}
 		}
 	}
+	Rectangle {
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.bottom: tabBar.top
+		height: 1
+		color: "gray"
+	}
 	TabBar {
 		id: tabBar
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
 		height: tabButtonNodes.height
+
 		currentIndex: 0
 		TabButton {
 			id: tabButtonNodes
@@ -121,6 +112,7 @@ Page {
 			display: AbstractButton.IconOnly
 		}
 	}
+
 	Connections {
 		target: app
 		function onNodesLoaded(shv_path, nodelist) {

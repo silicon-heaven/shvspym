@@ -13,11 +13,13 @@ using namespace shv::chainpack;
 Application::Application(int &argc, char **argv)
 	: Super(argc, argv)
 	, m_brokerListModel(new BrokerListModel(this))
+	, m_subscriptionModel(new SubscriptionModel(this))
 	, m_crypt(shv::core::utils::Crypt::createGenerator(17456, 3148, 2147483647))
 	, m_rpcConnection(new RpcConnection(this))
 	, m_settings(new Settings(this))
 {
 	connect(m_rpcConnection, &RpcConnection::brokerConnectedChanged, this, [this](bool is_connected) {
+		m_subscriptionModel->clear();
 		emit brokerConnectedChanged(is_connected);
 		emit methodCallInProcess(false);
 	});
@@ -39,7 +41,6 @@ Application::Application(int &argc, char **argv)
 			auto qdt = QDateTime::currentDateTime();
 			val.setMetaData({});
 			auto qval = shv::coreqt::rpc::rpcValueToQVariant(val);
-			auto cpon = QString::fromStdString(sig.params().toCpon());
 			emit signalArrived(shv_path, method, qdt, qval);
 		}
 	});
@@ -106,25 +107,6 @@ int Application::callMethod(const QString &shv_path, const QString &method, cons
 		[this, shv_path](int rq_id, const auto &error) {
 			qDebug() << error.toString();
 			emit methodCallResult(rq_id, QString::fromStdString(error.toString()), true);
-		}
-	);
-}
-
-int Application::subscribeSignal(const QString &shv_path, const QString &method, bool subscribe)
-{
-	qDebug() << "subscribe:" << shv_path << method << "subscribe:" << subscribe;
-	auto meth = method.isEmpty()? Rpc::SIG_VAL_CHANGED: method;
-	auto sub_meth = subscribe? Rpc::METH_SUBSCRIBE: Rpc::METH_UNSUBSCRIBE;
-	auto params = shv::coreqt::rpc::rpcValueToQVariant(RpcValue::Map{
-														   {Rpc::PAR_PATH, shv_path.toStdString()},
-														   {Rpc::PAR_METHOD, meth.toStdString()},
-													   });
-	return callRpcMethod(Rpc::DIR_BROKER_APP, sub_meth, params, this,
-		[this, shv_path, meth, subscribe](int rq_id, const auto &result) {
-			emit signalSubscribedChanged(shv_path, meth, subscribe);
-		},
-		[this, shv_path](int rq_id, const auto &error) {
-			qDebug() << error.toString();
 		}
 	);
 }

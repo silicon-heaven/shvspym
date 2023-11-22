@@ -7,7 +7,7 @@
    viewBox="0 0 28.40309 28.428356"
    version="1.1"
    id="svg1"
-   sodipodi:docname="subscription.svg"
+   sodipodi:docname="subscription-active.svg"
    inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -31,7 +31,7 @@
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2" />
+     inkscape:current-layer="layer1" />
   <defs
      id="defs1" />
   <g
@@ -55,7 +55,7 @@
     <path
        d="m 11.814076,31.028665 q -0.235465,0.06309 -0.298556,-0.172367 -0.03155,-0.117732 0.0093,-0.15392 l 5.785508,-11.08963 -8.9678876,-0.221659 q -0.15388,-0.0092 -0.198042,-0.174063 -0.044164,-0.164821 0.043686,-0.213597 L 23.724916,2.6763536 q 0.04088,-0.036197 0.111445,-0.055104 0.07066,-0.018933 0.153881,0.00925 0.106828,0.02186 0.13837,0.139578 0.02524,0.094186 -0.02649,0.1837532 l -5.76837,11.0598002 8.896793,-0.137838 q 0.177431,0.0029 0.208974,0.12066 0.04416,0.164819 -0.05466,0.267012 L 11.919185,30.950028 q -0.03458,0.05974 -0.105088,0.07864 z"
        id="text2"
-       style="font-size:4.9389px;line-height:1.25;-inkscape-font-specification:sans-serif;fill:#5e5c64;fill-opacity:1;stroke-width:0.264583"
+       style="font-size:4.9389px;line-height:1.25;-inkscape-font-specification:sans-serif;fill:#e5a50a;fill-opacity:1;stroke-width:0.264583"
        aria-label="🗲" />
   </g>
 </svg>

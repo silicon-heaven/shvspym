@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="33.866665mm"
-   height="33.866665mm"
-   viewBox="0 0 33.866665 33.866665"
+   width="26.475878mm"
+   height="26.416859mm"
+   viewBox="0 0 26.475878 26.416858"
    version="1.1"
    id="svg1"
    sodipodi:docname="nodes.svg"
@@ -24,45 +24,34 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="3.9962644"
-     inkscape:cx="120.48752"
-     inkscape:cy="59.430502"
+     inkscape:cx="105.72374"
+     inkscape:cy="30.903861"
      inkscape:window-width="1920"
      inkscape:window-height="1006"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2" />
+     inkscape:current-layer="layer3" />
   <defs
      id="defs1" />
   <g
-     inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-37.827236,-68.912987)"
-     sodipodi:insensitive="true">
+     id="layer3"
+     inkscape:label="Layer 3"
+     transform="translate(-1.2e-7,0.33103862)">
     <rect
-       style="fill:none;fill-opacity:0.587116;stroke-width:0.465"
+       style="fill:none;stroke-width:2.265"
        id="rect1"
-       width="33.866665"
-       height="33.866665"
-       x="37.827236"
-       y="68.912987" />
+       width="26.416859"
+       height="26.416859"
+       x="0.029509334"
+       y="-0.33103862" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Layer 2">
-    <text
-       xml:space="preserve"
-       style="font-size:4.9389px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;stroke-width:0.264583"
-       x="29.329996"
-       y="9.0704498"
-       id="text1"><tspan
-         sodipodi:role="line"
-         id="tspan1"
-         style="fill:#e01b24;stroke:#c64600;stroke-width:0.264583"
-         x="29.329996"
-         y="9.0704498">⚡</tspan></text>
+     inkscape:label="Layer 2"
+     transform="translate(-3.8933092,-3.6738848)">
     <g
        id="g4"
        transform="translate(0.33103832,0.26483066)">
