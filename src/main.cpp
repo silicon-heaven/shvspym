@@ -34,16 +34,8 @@ int main(int argc, char *argv[])
 	},
 	Qt::QueuedConnection);
 
-	QStringList builtInStyles = {
-		QLatin1String("Basic"),
-		QLatin1String("Fusion"),
-		QLatin1String("Imagine"),
-		QLatin1String("Material"),
-		QLatin1String("Universal")
-	};
-	engine.setInitialProperties({{ "builtInStyles", builtInStyles }});
 	engine.rootContext()->setContextProperty("app", &app);
-	engine.loadFromModule("shvspymqml", "Main");
+	engine.loadFromModule("shvspym", "Main");
 
 	return app.exec();
 }

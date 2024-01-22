@@ -20,8 +20,6 @@ class Application : public QGuiApplication
 	Q_PROPERTY(QString appVersion READ appVersion CONSTANT)
 	Q_PROPERTY(QObject* brokerListModel READ brokerListModelObject CONSTANT)
 	Q_PROPERTY(QObject* subscriptionModel READ subscriptionModelObject CONSTANT)
-	Q_PROPERTY(QObject* settings READ settings CONSTANT)
-
 public:
 	Application(int &argc, char **argv);
 
@@ -54,13 +52,11 @@ private:
 	QString appVersion() const;
 	QObject* brokerListModelObject() { return m_brokerListModel; }
 	QObject* subscriptionModelObject() { return m_subscriptionModel; }
-	QObject* settings() { return m_settings; }
 private:
 	BrokerListModel *m_brokerListModel;
 	SubscriptionModel *m_subscriptionModel;
 	shv::core::utils::Crypt m_crypt;
 	RpcConnection *m_rpcConnection;
-	QObject *m_settings;
 };
 
 #endif // APPLICATION_H

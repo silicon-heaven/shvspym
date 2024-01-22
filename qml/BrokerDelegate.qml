@@ -4,7 +4,7 @@ import QtQuick.Layouts
 Rectangle {
 	id: root
 	height: 50
-	//color: app.settings.delegateAltColor
+	//color: Style.delegateAltColor
 
 	signal connectToBrokerRequest(connection_id: int)
 	signal editBrokerRequest(connection_id: int)
@@ -36,13 +36,13 @@ Rectangle {
 				height: 27
 				text: root.name? root.name: "Connection name"
 				//verticalAlignment: Text.AlignVCenter
-				font.pointSize: app.settings.fontSize
+				font.pixelSize: Style.fontPixelSize
 				font.bold: true
 			}
 			Text {
 				id: connectionString
 				text: root.connectionString? root.connectionString: "Connection string"
-				font.pointSize: app.settings.fontSize
+				font.pixelSize: Style.fontPixelSize
 			}
 		}
 		MyButton {

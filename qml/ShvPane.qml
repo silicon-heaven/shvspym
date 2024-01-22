@@ -19,7 +19,7 @@ Pane {
 		anchors.right: parent.right
 		anchors.top: parent.top
 		height: cancelBt.height
-		color: app.settings.headerColor
+		color: Style.headerColor
 
 		MyButton {
 			id: cancelBt
@@ -39,7 +39,7 @@ Pane {
 			anchors.bottom: parent.bottom
 			color: header.color
 			Text {
-				color: app.settings.headerTextColor
+				color: Style.headerTextColor
 				text: root.shvPath
 				elide: Text.ElideLeft
 				anchors.left: parent.left
@@ -103,7 +103,7 @@ Pane {
 			anchors.left: parent.left
 			anchors.right: parent.right
 			height: 10
-			color: app.settings.buttonBorderColor
+			color: Style.buttonBorderColor
 		}
 		MethodsRect {
 			id: methods

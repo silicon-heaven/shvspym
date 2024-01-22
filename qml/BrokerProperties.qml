@@ -38,7 +38,7 @@ Rectangle {
 		anchors.right: parent.right
 		anchors.top: parent.top
 		height: okBt.height
-		color: app.settings.headerColor
+		color: Style.headerColor
 
 		RowLayout {
 			anchors.left: parent.left
@@ -55,8 +55,8 @@ Rectangle {
 				text: qsTr("Broker properties")
 				horizontalAlignment: Text.AlignHCenter
 				font.bold: true
-				font.pixelSize: app.settings.fontSize
-				color: app.settings.backgroundColor
+				font.pixelSize: Style.fontPixelSize
+				color: Style.backgroundColor
 			}
 			MyButton {
 				id: okBt
@@ -91,7 +91,7 @@ Rectangle {
 			spacing: 10
 
 			component FldLabel : Text {
-				color: app.settings.headerColor
+				color: Style.headerColor
 			}
 
 			FldLabel {
@@ -162,7 +162,7 @@ Rectangle {
 					id: button
 					property bool checked: false
 					iconSource: "../images/eye.svg"
-					color: app.settings.backgroundColor
+					color: Style.backgroundColor
 					border.width: 0
 					onTapped: {
 						checked = !checked

@@ -32,8 +32,6 @@ ApplicationWindow {
 		Qt.openUrlExternally(url)
 	}
 
-	required property var builtInStyles
-
 	Settings {
 		id: settings
 		property string style
@@ -43,7 +41,7 @@ ApplicationWindow {
 		id: header
 		height: 50
 		Rectangle {
-			color: app.settings.headerColor
+			color: Style.headerColor
 			anchors.fill: parent
 			RowLayout {
 				anchors.fill: parent
@@ -62,7 +60,7 @@ ApplicationWindow {
 					text: qsTr("ShvSpy")
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
-					font.pixelSize: app.settings.fontSize
+					font.pixelSize: Style.fontPixelSize
 					font.bold: true
 				}
 
@@ -72,7 +70,7 @@ ApplicationWindow {
 					onClicked: {
 						aboutDialog.open()
 					}
-					//height: app.settings.lineHeight
+					//height: Style.lineHeight
 
 					//palette.button: Constants.isDarkModeActive ? "#30D158" : "#34C759"
 					//palette.highlight: Constants.isDarkModeActive ? "#30DB5B" : "#248A3D"
@@ -167,5 +165,7 @@ ApplicationWindow {
 											busyIndicator.running = is_running
 											//busyRect.visible = is_running
 		})
+		console.log("Style:", Style)
+		console.log("Style.lineHeight:", Style.lineHeight)
 	}
 }

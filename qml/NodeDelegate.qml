@@ -3,8 +3,8 @@ import QtQuick.Controls
 
 Rectangle {
 	id: root
-	height: app.settings.fontSize * 3
-	color: index % 2? app.settings.delegateColor: app.settings.delegateAltColor
+	height: Style.lineHeight * 2
+	color: index % 2? Style.delegateColor: Style.delegateAltColor
 	//radius: 5
 	//border.color: "#69ac77"
 	border.width: 0

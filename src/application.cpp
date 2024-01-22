@@ -1,6 +1,5 @@
 #include "application.h"
 #include "rpcconnection.h"
-#include "settings.h"
 
 #include <shv/iotqt/rpc/rpcresponsecallback.h>
 #include <shv/coreqt/log.h>
@@ -16,7 +15,6 @@ Application::Application(int &argc, char **argv)
 	, m_subscriptionModel(new SubscriptionModel(this))
 	, m_crypt(shv::core::utils::Crypt::createGenerator(17456, 3148, 2147483647))
 	, m_rpcConnection(new RpcConnection(this))
-	, m_settings(new Settings(this))
 {
 	connect(m_rpcConnection, &RpcConnection::brokerConnectedChanged, this, [this](bool is_connected) {
 		m_subscriptionModel->clear();

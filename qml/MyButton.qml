@@ -8,11 +8,11 @@ Rectangle {
 
 	property int iconMargin: 2
 
-	color: app.settings.buttonColor
+	color: Style.buttonColor
 	width: 44
 	height: 44
 
-	border.color: app.settings.buttonBorderColor
+	border.color: Style.buttonBorderColor
 	border.width: 1
 	radius: Math.max(height / 10, 1)
 

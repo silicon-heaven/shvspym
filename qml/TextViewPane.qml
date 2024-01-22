@@ -19,7 +19,7 @@ Pane {
 		id: header
 
 		height: 50
-		color: root.showError? "red": app.settings.headerColor
+		color: root.showError? "red": Style.headerColor
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: parent.top
@@ -38,7 +38,7 @@ Pane {
 			}
 			Text {
 				Layout.fillWidth: true
-				color: app.settings.headerTextColor
+				color: Style.headerTextColor
 				text: root.showError? qsTr("Error"): root.headerText
 				font.bold: true
 			}
@@ -98,7 +98,7 @@ Pane {
 		anchors.right: parent.right
 		anchors.top: header.bottom
 		anchors.bottom: parent.bottom
-		font.pixelSize: app.settings.fontSize
+		font.pixelSize: Style.fontPixelSize
 		wrapMode: Text.WordWrap
 		readOnly: true
 		textFormat: Text.PlainText

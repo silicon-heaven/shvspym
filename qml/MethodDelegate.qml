@@ -19,7 +19,7 @@ Rectangle {
 	property int requestId: 0
 
 	function backgroundColor() {
-		return root.index % 2? app.settings.delegateColor2: app.settings.delegateAltColor2
+		return root.index % 2? Style.delegateColor2: Style.delegateAltColor2
 
 	}
 
@@ -40,19 +40,19 @@ Rectangle {
 					id: nodeName
 					Layout.fillWidth: true
 					text: root.name? root.name: "method name"
-					font.pixelSize: app.settings.fontSize
+					font.pixelSize: Style.fontPixelSize
 					font.bold: true
 				}
 				Text {
 					id: fldFlags
-					font.pixelSize: app.settings.fontSize
+					font.pixelSize: Style.fontPixelSize
 					text: root.isGetter? "G": ""
 				}
 			}
 			Text {
 				id: fldResult
 				property bool isError: false
-				font.pixelSize: app.settings.fontSize
+				font.pixelSize: Style.fontPixelSize
 			}
 			Component {
 				id: resultPane
@@ -83,7 +83,7 @@ Rectangle {
 		}
 		MyButton {
 			id: buttonCall
-			color: app.settings.buttonColor
+			color: Style.buttonColor
 			width: root.height - 6
 			height: width
 			iconMargin: 10
