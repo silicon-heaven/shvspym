@@ -33,7 +33,7 @@ Pane {
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
 		iconMargin: 7
-		iconSource: "../images/plus.svg"
+		iconSource: "images/plus.svg"
 
 		onTapped: {
 			pane.addBroker()

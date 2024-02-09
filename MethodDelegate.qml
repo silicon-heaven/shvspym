@@ -74,7 +74,7 @@ Rectangle {
 			color: root.color
 			border.width: 0
 			//iconMargin: 5
-			iconSource: root.params? "../images/params-some.svg": "../images/params.svg"
+			iconSource: root.params? "images/params-some.svg": "images/params.svg"
 			onTapped: {
 				let cpon = app.variantToCpon(root.params);
 				let pane = stackView.push(resultPane, {text: cpon, headerText: qsTr("Method parameters"), checkCpon: true, readOnly: false});
@@ -87,7 +87,7 @@ Rectangle {
 			width: root.height - 6
 			height: width
 			iconMargin: 10
-			iconSource: "../images/play.svg"
+			iconSource: "images/play.svg"
 			onTapped: {
 				//let shv_path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
 				root.requestId = app.callMethod(root.shvPath, root.name, root.params)

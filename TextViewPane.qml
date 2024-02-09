@@ -32,7 +32,7 @@ Pane {
 				width: header.height
 				height: width
 				iconMargin: 15
-				iconSource: "../images/back.svg"
+				iconSource: "images/back.svg"
 				color: "transparent"
 				onTapped: root.back()
 			}
@@ -45,7 +45,7 @@ Pane {
 			MyButton {
 				width: header.height
 				height: width
-				iconSource: "../images/copy.svg"
+				iconSource: "images/copy.svg"
 				color: "transparent"
 				onTapped: {
 					textEdit.selectAll()
@@ -57,7 +57,7 @@ Pane {
 				visible: !root.readOnly
 				width: header.height
 				height: width
-				iconSource: "../images/ok.svg"
+				iconSource: "images/ok.svg"
 				iconMargin: 10
 				color: "transparent"
 				onTapped: {

@@ -102,13 +102,13 @@ Page {
 			id: tabButtonNodes
 			text: qsTr("Nodes")
 			display: AbstractButton.IconOnly
-			icon.source: "../images/nodes.svg"
+			icon.source: "images/nodes.svg"
 		}
 
 		TabButton {
 			id: tabButtonSubscriptions
 			text: qsTr("Subscriptions")
-			icon.source: "../images/subscription.svg"
+			icon.source: "images/subscription.svg"
 			display: AbstractButton.IconOnly
 		}
 	}

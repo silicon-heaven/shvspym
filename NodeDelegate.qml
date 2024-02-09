@@ -47,7 +47,7 @@ Rectangle {
 		Image {
 			id: image
 			anchors.fill: parent
-			source: lightning.isActive? "../images/subscription-active.svg": "../images/subscription.svg"
+			source: lightning.isActive? "images/subscription-active.svg": "images/subscription.svg"
 			anchors.bottomMargin: 5
 			anchors.topMargin: 5
 			anchors.leftMargin: 5

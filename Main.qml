@@ -66,7 +66,7 @@ ApplicationWindow {
 
 				ToolButton {
 					id: settingsButton
-					icon.source: "../images/menu.svg"
+					icon.source: "images/menu.svg"
 					onClicked: {
 						aboutDialog.open()
 					}

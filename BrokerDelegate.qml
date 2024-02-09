@@ -23,7 +23,7 @@ Rectangle {
 			id: playButton
 			width: height
 			radius:5
-			iconSource: "../images/connect.svg"
+			iconSource: "images/connect.svg"
 			iconMargin: 5
 			onTapped: {
 				root.connectToBrokerRequest(root.connectionId)
@@ -50,7 +50,7 @@ Rectangle {
 			width: height
 			border.width: 0
 			color: "white"
-			iconSource: "../images/pencil.svg"
+			iconSource: "images/pencil.svg"
 			onTapped: {
 				root.editBrokerRequest(root.connectionId)
 			}

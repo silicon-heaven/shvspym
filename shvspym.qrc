@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>images/shvspy.svg</file>
-        <file>qml/DlgAbout.qml</file>
-        <file>qml/SessionPage.qml</file>
-        <file>qml/DeliveredSignalDelegate.qml</file>
-    </qresource>
-</RCC>

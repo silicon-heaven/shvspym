@@ -28,7 +28,7 @@ Pane {
 			anchors.top: parent.top
 			anchors.bottom: parent.bottom
 			iconMargin: 10
-			iconSource: "../images/back.svg"
+			iconSource: "images/back.svg"
 			width: header.height
 			onTapped: root.back()
 		}

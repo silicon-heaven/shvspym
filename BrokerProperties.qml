@@ -46,7 +46,7 @@ Rectangle {
 			MyButton {
 				id: cancelBt
 				width: height
-				iconSource: "../images/back.svg"
+				iconSource: "images/back.svg"
 				iconMargin: 10
 				onTapped: form.cancelled()
 			}
@@ -61,7 +61,7 @@ Rectangle {
 			MyButton {
 				id: okBt
 				width: height
-				iconSource: "../images/ok.svg"
+				iconSource: "images/ok.svg"
 				iconMargin: 10
 				onTapped: {
 					schemeFld.focus = true
@@ -161,7 +161,7 @@ Rectangle {
 				MyButton {
 					id: button
 					property bool checked: false
-					iconSource: "../images/eye.svg"
+					iconSource: "images/eye.svg"
 					color: Style.backgroundColor
 					border.width: 0
 					onTapped: {

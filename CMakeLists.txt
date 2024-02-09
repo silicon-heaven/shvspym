@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Network SerialPort WebSockets)
 
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup(REQUIRES 6.6)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     set(CMAKE_WIN32_EXECUTABLE ON) # Don't open a console window for Windows apps on Release mode.
@@ -21,7 +21,7 @@ set(WITH_BROKER OFF CACHE BOOL "")
 set(WITH_VISU OFF CACHE BOOL "")
 add_subdirectory(3rdparty/libshv)
 
-set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE )
+set_source_files_properties(Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE )
 
 qt_add_executable(appshvspym
 	shvspym.qrc
@@ -38,22 +38,22 @@ qt_add_qml_module(appshvspym
     URI shvspym
     VERSION 1.0
     QML_FILES
-		qml/Style.qml
-		qml/Main.qml
-		qml/MyButton.qml
-		qml/BrokerDelegate.qml
-		qml/BrokerProperties.qml
-		qml/BrokersPane.qml
-		qml/ShvPane.qml
-		qml/SessionPage.qml
-		qml/DeliveredSignalDelegate.qml
-		qml/SubscriptionDelegate.qml
-		qml/NodesRect.qml
-		qml/NodeDelegate.qml
-		qml/MethodsRect.qml
-		qml/MethodDelegate.qml
-		qml/TextViewPane.qml
-		qml/AboutDialog.qml
+		Style.qml
+		Main.qml
+		MyButton.qml
+		BrokerDelegate.qml
+		BrokerProperties.qml
+		BrokersPane.qml
+		ShvPane.qml
+		SessionPage.qml
+		DeliveredSignalDelegate.qml
+		SubscriptionDelegate.qml
+		NodesRect.qml
+		NodeDelegate.qml
+		MethodsRect.qml
+		MethodDelegate.qml
+		TextViewPane.qml
+		AboutDialog.qml
 
 	RESOURCES
 		images/shvspy.svg
