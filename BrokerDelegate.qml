@@ -36,13 +36,13 @@ Rectangle {
 				height: 27
 				text: root.name? root.name: "Connection name"
 				//verticalAlignment: Text.AlignVCenter
-				font.pixelSize: Style.fontPixelSize
+				//font.pixelSize: Style.fontPixelSize
 				font.bold: true
 			}
 			Text {
 				id: connectionString
 				text: root.connectionString? root.connectionString: "Connection string"
-				font.pixelSize: Style.fontPixelSize
+				//font.pixelSize: Style.fontPixelSize
 			}
 		}
 		MyButton {

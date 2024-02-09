@@ -74,20 +74,15 @@ void Application::callDir(const QString &shv_path)
 		[this, shv_path](int rq_id, const QVariant &result) {
 			QVariantList dir;
 			for(const auto &v : result.toList()) {
-				QVariantMap method;
-				if(v.userType() == qMetaTypeId<QString>()) {
-					method = QVariantMap{{"name", v.toString()}};
-				}
-				else if(v.userType() == qMetaTypeId<QVariantMap>()) {
-					method = v.toMap();
+				auto rv = shv::coreqt::rpc::qVariantToRpcValue(v);
+				auto mm = MetaMethod::fromRpcValue(rv);
+				if (mm.isValid()) {
+					auto method = shv::coreqt::rpc::rpcValueToQVariant(mm.toRpcValue()).toMap();
+					dir << method;
 				}
 				else {
-					shvWarning() << "Unsupported method description type:" << shv::coreqt::rpc::qVariantToRpcValue(v).toCpon();
+					shvWarning() << "Unsupported method description type:" << v.typeName() << shv::coreqt::rpc::qVariantToRpcValue(v).toCpon();
 				}
-				if(!method.contains("flags")) {
-					method["flags"] = 0; // flags is required property
-				}
-				dir << method;
 			}
 			emit methodsLoaded(shv_path, dir);
 		}

@@ -55,7 +55,7 @@ Rectangle {
 				text: qsTr("Broker properties")
 				horizontalAlignment: Text.AlignHCenter
 				font.bold: true
-				font.pixelSize: Style.fontPixelSize
+				//font.pixelSize: Style.fontPixelSize
 				color: Style.backgroundColor
 			}
 			MyButton {

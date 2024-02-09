@@ -98,7 +98,7 @@ Pane {
 		anchors.right: parent.right
 		anchors.top: header.bottom
 		anchors.bottom: parent.bottom
-		font.pixelSize: Style.fontPixelSize
+		//font.pixelSize: Style.fontPixelSize
 		wrapMode: Text.WordWrap
 		readOnly: true
 		textFormat: Text.PlainText

@@ -30,6 +30,7 @@ Pane {
 			iconMargin: 10
 			iconSource: "images/back.svg"
 			width: header.height
+			border.width: 0
 			onTapped: root.back()
 		}
 		Rectangle {
@@ -118,7 +119,7 @@ Pane {
 	Component.onCompleted: {
 		//console.log("Create:", root.shvPath, root)
 		app.methodsLoaded.connect((shv_path, meths) => {
-			if(/*root && */shv_path === root.shvPath) {
+			if(root && shv_path === root.shvPath) {
 				methods.setMethods(meths);
 			}
 		})

@@ -24,7 +24,6 @@ add_subdirectory(3rdparty/libshv)
 set_source_files_properties(Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE )
 
 qt_add_executable(appshvspym
-	shvspym.qrc
 	src/version.h
 	src/main.cpp
 
@@ -74,6 +73,7 @@ qt_add_qml_module(appshvspym
 		images/subscription.svg
 		images/subscription-active.svg
 
+
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -87,8 +87,8 @@ set_target_properties(appshvspym PROPERTIES
     WIN32_EXECUTABLE TRUE
     QT_ANDROID_PACKAGE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/android
 	QT_ANDROID_TARGET_SDK_VERSION 33
-	QT_ANDROID_VERSION_CODE 2
-	QT_ANDROID_VERSION_NAME 0.0.2
+	QT_ANDROID_VERSION_CODE 3
+	QT_ANDROID_VERSION_NAME 0.0.3
 )
 
 #qt_finalize_executable(shvspym)

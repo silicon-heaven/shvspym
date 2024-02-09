@@ -40,19 +40,19 @@ Rectangle {
 					id: nodeName
 					Layout.fillWidth: true
 					text: root.name? root.name: "method name"
-					font.pixelSize: Style.fontPixelSize
+					//font.pixelSize: Style.fontPixelSize
 					font.bold: true
 				}
 				Text {
 					id: fldFlags
-					font.pixelSize: Style.fontPixelSize
+					//font.pixelSize: Style.fontPixelSize
 					text: root.isGetter? "G": ""
 				}
 			}
 			Text {
 				id: fldResult
 				property bool isError: false
-				font.pixelSize: Style.fontPixelSize
+				//font.pixelSize: Style.fontPixelSize
 			}
 			Component {
 				id: resultPane

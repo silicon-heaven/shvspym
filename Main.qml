@@ -60,7 +60,7 @@ ApplicationWindow {
 					text: qsTr("ShvSpy")
 					horizontalAlignment: Qt.AlignHCenter
 					verticalAlignment: Qt.AlignVCenter
-					font.pixelSize: Style.fontPixelSize
+					//font.pixelSize: Style.fontPixelSize
 					font.bold: true
 				}
 
@@ -70,8 +70,6 @@ ApplicationWindow {
 					onClicked: {
 						aboutDialog.open()
 					}
-					//height: Style.lineHeight
-
 					//palette.button: Constants.isDarkModeActive ? "#30D158" : "#34C759"
 					//palette.highlight: Constants.isDarkModeActive ? "#30DB5B" : "#248A3D"
 				}
@@ -165,7 +163,7 @@ ApplicationWindow {
 											busyIndicator.running = is_running
 											//busyRect.visible = is_running
 		})
-		console.log("Style:", Style)
-		console.log("Style.lineHeight:", Style.lineHeight)
+		//console.log("Style:", Style)
+		//console.log("Style.lineHeight:", Style.lineHeight)
 	}
 }

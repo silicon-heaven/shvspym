@@ -12,7 +12,7 @@ Page {
 		ShvPane {
 			onBack: {
 				nodesStack.pop()
-				if(nodesStack.depth === 0) {
+				if(nodesStack.depth === 1) {
 					root.back()
 				}
 			}
@@ -95,21 +95,25 @@ Page {
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
-		height: tabButtonNodes.height
+		//height: 50
 
 		currentIndex: 0
 		TabButton {
 			id: tabButtonNodes
+			//anchors.top: parent.top
+			//anchors.bottom: parent.bottom
 			text: qsTr("Nodes")
-			display: AbstractButton.IconOnly
+			//display: AbstractButton.IconOnly
 			icon.source: "images/nodes.svg"
 		}
 
 		TabButton {
 			id: tabButtonSubscriptions
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
 			text: qsTr("Subscriptions")
 			icon.source: "images/subscription.svg"
-			display: AbstractButton.IconOnly
+			//display: AbstractButton.IconOnly
 		}
 	}
 

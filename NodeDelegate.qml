@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 Rectangle {
 	id: root
-	height: Style.lineHeight * 2
+	height: nodeName.height * 1.5
 	color: index % 2? Style.delegateColor: Style.delegateAltColor
 	//radius: 5
 	//border.color: "#69ac77"
@@ -27,7 +27,7 @@ Rectangle {
 		anchors.verticalCenter: parent.verticalCenter
 		anchors.left: parent.left
 		anchors.right: lightning.left
-		font.pointSize: 15
+		//font.pointSize: 15
 		anchors.leftMargin: 5
 		TapHandler {
 			onTapped: {
