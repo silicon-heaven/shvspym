@@ -116,13 +116,15 @@ Pane {
 			shvPath: root.shvPath
 		}
 	}
-	Component.onCompleted: {
-		//console.log("Create:", root.shvPath, root)
-		app.methodsLoaded.connect((shv_path, meths) => {
+	Connections {
+		target: app
+		function onMethodsLoaded(shv_path, meths) {
 			if(root && shv_path === root.shvPath) {
 				methods.setMethods(meths);
 			}
-		})
+		}
+	}
+	Component.onCompleted: {
 		app.callDir(root.shvPath)
 	}
 

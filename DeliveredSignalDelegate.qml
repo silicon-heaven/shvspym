@@ -5,7 +5,7 @@ Column {
 	required property string shvPath
 	required property string method
 	required property date timestamp
-	required property var value
+	required property string valuestr
 	Text {
 		text: root.shvPath + ":" + root.method
 		elide: Text.ElideLeft
@@ -17,7 +17,7 @@ Column {
 		width: parent.width
 	}
 	Text {
-		text: JSON.stringify(root.value)
+		text: valuestr
 		width: parent.width
 	}
 	Rectangle {

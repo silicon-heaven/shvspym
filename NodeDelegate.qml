@@ -38,9 +38,10 @@ Rectangle {
 	}
 	Rectangle {
 		id: lightning
-		width: root.height
 		height: root.height
+		width: height * 1.5
 		anchors.right: parent.right
+		//anchors.rightMargin: 10
 
 		property bool isActive: false
 
@@ -48,18 +49,19 @@ Rectangle {
 			id: image
 			anchors.fill: parent
 			source: lightning.isActive? "images/subscription-active.svg": "images/subscription.svg"
-			anchors.bottomMargin: 5
-			anchors.topMargin: 5
-			anchors.leftMargin: 5
-			anchors.rightMargin: 5
+			anchors.bottomMargin: 3
+			anchors.topMargin: 3
+			anchors.leftMargin: 3
+			anchors.rightMargin: 3
 			fillMode: Image.PreserveAspectFit
-			Component.onCompleted: {
-				app.subscriptionModel.signalSubscribedChanged.connect((shv_path, method, is_subscribed) => {
-							  let path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
-							  if(shv_path === path) {
-								  lightning.isActive = is_subscribed
-							  }
-						  })
+			Connections {
+				target: app.subscriptionModel
+				function onSignalSubscribedChanged(shv_path, method, is_subscribed) {
+					let path = root.shvPath? root.shvPath + '/' + root.nodeName: root.nodeName
+					if(shv_path === path) {
+						lightning.isActive = is_subscribed
+					}
+				}
 			}
 		}
 		TapHandler {

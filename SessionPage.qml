@@ -11,8 +11,10 @@ Page {
 		id: shvPane
 		ShvPane {
 			onBack: {
+				let prev_depth = nodesStack.depth;
 				nodesStack.pop()
-				if(nodesStack.depth === 1) {
+				console.log("BACK: depth", nodesStack.depth, "prev:", prev_depth)
+				if(prev_depth === 1) {
 					root.back()
 				}
 			}
@@ -70,15 +72,15 @@ Page {
 					delegate: DeliveredSignalDelegate {
 						width: deliveredSignalsList.width
 					}
-					Component.onCompleted: {
-						app.signalArrived.connect(
-							(shv_path, method, timestamp, value) => {
-								console.log("signal arrived:", shv_path + ':' + method, "timestamp:", timestamp, "value:", value)
-								deliveredListModel.insert(0, {"shvPath": shv_path, "method": method, "timestamp": timestamp, "value": value})
-								//deliveredSignalsList.positionViewAtEnd()
-							}
-						)
-					}
+					Connections {
+						target: app
+						function onSignalArrived(shv_path, method, timestamp, value) {
+							// don't know how to disconnect this lambda, when deliveredListModel is destroyed
+							console.log("signal arrived:", shv_path + ':' + method, "timestamp:", timestamp, "value:", value)
+							let valuestr = JSON.stringify(value)
+							deliveredListModel.insert(0, {"shvPath": shv_path, "method": method, "timestamp": timestamp, "valuestr": valuestr})
+						}
+ 					}
 				}
 			}
 		}
